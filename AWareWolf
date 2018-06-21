@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>   
+   <meta charset='UTF-8' />
+   <meta name="viewport" context="width=device-width, initial-scale=1.0" />
+   <title>A Were-Wolf Guide</title>   
+   <meta name="discription" content="WoD, WhiteWolf, Werewolf" />
+   <meta name="version" content="v1.2" />
+   <meta name="author" content="Orsaion" />
+
+   <!-- Eventually this block will be moved to seperate file(s) to speed up 
+    first page load. Putting call here for that to be used in the future.
+    <script src="chapters.js"></script> -->
+   <script>
+       //"use strict";
+
+       // tomorrow's problem. Parsing the inputs to allow them to work so that
+       // there is a popup with different selectors for dice and difficulty
+       // making a call to math.random for the numbers.
+       function runes() {
+       }
+
+       // at the moment this is going to change the opening text, but the top
+       // buttons are still being finalized
+       function intro() {
+           window.open("index.html");
+       }
+
+       /** All of the following functions are going to be used to access 
+       * different parts of the main database. The call will come in looking for
+       * specific portions, then alter the article div to display the HTML code.
+       * All the information in the db has been written as formatted and tagged 
+       * HTML allowing them to be stylized upon load. Because some parts will 
+       * pull several different db sectors, this pre-fab code helps maintain a 
+       * consistant look and feel of the article div/text.
+       */
+       function changeText() { 
+           // until I have the SQL DB up and running, I've put in test code to 
+           // make sure everything works. This will be changed later on.        
+           document.getElementById("textBody").innerHTML="<p>Half human. Half" +
+           " beast. Predators that stalk the deepest woods and the darkest " +
+           "urban alleyways. Monsters that creep up on their prey like ghosts, "
+           + "open explode into a fury of claws and fangs. Beasts that howl " +
+           "under the full moon and kill those that cross the boundaries of " +
+           "their territory...</p>" + "<p><b><i>Werewolves.</i></b></p>";
+       }
+       function changeBack() {           
+           document.getElementById("textBody").innerHTML="<p>And now, for " +
+           "something completely different...</p>";
+       } 
+       function change3() {
+            document.getElementById("textBody").innerHTML="<p><em>Add some " +
+            "stuff from Ch3...</em></p>";
+       }
+       function change4() {
+            document.getElementById("textBody").innerHTML='<img src="wolf.png"' 
+            + 'width="500" height="500" alt="wolf picture"></img>';
+       }
+       function change5() {
+            document.getElementById("textBody").innerHTML="Add some stuff from" 
+            + " Ch5...";
+       }
+       function change6() {
+            document.getElementById("textBody").innerHTML="Add some stuff from"
+            + " Ch6...";
+       }
+       function change7() {
+            document.getElementById("textBody").innerHTML="Add some stuff from"
+            + " Ch7...";
+       }
+       function change8() {
+            document.getElementById("textBody").innerHTML="Add some stuff from" 
+            + " Ch8...";
+       }
+       function change9() {
+            document.getElementById("textBody").innerHTML="Add some stuff from" 
+            + " Ch9...";
+       }
+       function soupDrinker() {
+            document.getElementById("textBody").innerHTML="<p><em>What are you" 
+            + " doing?</em></p> <p>It is not time to drink soup!</p>";
+       }
+   </script>
+
+   <!-- As with the script above, this CSS block will get moved to another file 
+    at some point as well. So I'm going to add the call here for it.
+    <link rel="stylesheet" href="wodStyle.css"> -->
+   <style>
+   * {
+       box-sizing: border-box;
+   }
+   body {
+       text-align: justify;
+       background-color: black;
+   }
+   header {
+       background-color: rgb(38, 41, 44); 
+       background-size: 40px;
+       border-radius: 50px 50px 0px 0px;
+       text-align: center;
+       font-family: fantasy;
+       font-size: 30px;
+       color: rgb(182, 0, 0);  
+       width: 100%;
+       padding: 5px;
+       padding-bottom: 5px;
+       border: none;
+       
+   }
+   /** div top is a subsection under the main title/header of the page. It 
+   * houses a few butons that will link to another page or pull some mini-apps 
+   * on to the page. planned links in this case are for saving notes, opening a 
+   * character sheet, opening a dice rolling app, and resetting back to the 
+   * original opening text. 
+   */
+   div top {
+       background-color: darkgray;
+       display: flex;
+       justify-content: space-evenly;
+       height: 40px;
+       width: 100%;
+       padding: 10px;
+
+   }
+   /** nav chapter will be the area containing all the different links in 
+   * accordian style buttons. So a user can click on each different chapter in 
+   * the main button which drops down the individual sections. Those will have 
+   * script calls that will pull the correct info from a SQL DB on the server.
+   */
+   nav chapter {
+        background-color: lightslategray;
+        border-radius: 0px 0px 15px 15px;
+        list-style-type: none;
+        float: left;
+        width: 20%;
+        min-height: 80%;
+        max-height: 80%;
+        margin: auto; 
+        padding: 5px; 
+   }
+   .button {
+       background-color: lightslategray;
+       border: none;
+       color: wheat;
+       padding: 5px 5px;
+       text-align: center;
+       text-decoration: none;
+       display: inline-block;
+       font-size: 15px;
+       margin: 0;
+       width: 100%;
+       cursor: pointer;
+       border-radius: 12px;
+   }
+   .accordion {
+       background-color: lightslategray;
+       color: black;
+       font-size: 15px;
+       cursor: pointer;
+       padding: 5px;
+       width: 100%;
+       text-align: left;
+       border: none;
+       outline: none;
+       transition: 0.4s;
+   }
+   .active, .accordion:hover {
+       background-color: wheat;
+       color: black;
+   }
+   .accordion:after {
+       content: "\1F43E"; /* double paw print symbol */
+       color: black;
+       font-weight: bold;
+       float: right;
+       margin-left: 5px;
+   }
+   .active:after {
+       content: "\219F"; /* up two headed arrow symbol */
+   }
+   .panel {
+       padding: 5px;
+       background-color: lightslategray;
+       display: none;
+       overflow: hidden;
+       height: fit-content;
+   }
+   .button:hover {
+        background-color: wheat;
+        color: black;
+   }
+   .button:after {
+       background-color: lightgrey;
+       color: midnightblue;
+   }
+   /* added the title one to fix a problem with the overall display. It doesn't
+   * really do anything but have centered text and act as a fake header/title. 
+   */
+   .accordionTitle {
+       background-color: lightslategray;
+       color: black;
+       font-size: 15px;
+       cursor: pointer;
+       padding: 5px;
+       width: 100%;
+       text-align: center;
+       border: none;
+       outline: none;
+       transition: 0.4s;
+   }
+   /** the article is where the requested chapter link text will be displayed. 
+   * This sets up the area and the background picture so when the new HTML code 
+   * is called it will follow established styles and look the same. 
+   */
+   article {
+       background-image: url(yellow-old.jpg);
+       float: right;
+       border-radius: 0px 0px 15px 15px;
+       min-width: 80%;
+       max-width: 80%;
+       min-height: 80%;
+       max-height: 80%;
+       margin-bottom: auto; 
+       padding: 20px;
+       overflow: auto;
+       border: none;
+   }
+   h3 {
+       text-align: center;
+       font-family: Tahoma;
+       color: midnightblue;
+   }
+   p {
+        text-indent: 50px;
+        font-family: Helvetica;
+        font-weight: bold;
+        color: black;
+   }
+   ul {
+       list-style-type: none;
+       margin: 0;
+       padding: 0;
+       width: 100%;
+   }
+   li a {
+       display: block;
+       color: black;
+       font-size: 15px;
+       margin: 0;
+       padding: 0;
+       text-decoration: none; 
+   }
+   li a:hover{
+       background-color: wheat;
+       color: black;
+   } /* had created a tool tip for something but never implemented it,
+        may add it on something later, leaving code here in case.
+   .tooltip {
+        position: relative;
+        display: inline-block;
+   }
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: midnightblue;
+        color: wheat;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        top: 150%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 1s;
+   }
+    .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent midnightblue transparent;
+   }
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+   } */ 
+   /* attempting animation. couldn't get it to work. Will try later or change
+      how I'm going to do this. Might be easier to just add a .gif
+   #animation {
+        display: flow-root;
+        position: bottom;
+        width: 150px;
+        height: 175px;
+        border: hidden;
+        background-color: transparent;
+        background-image: url("aniwolf.png");
+        -webkit-animation: puppy 0.1s infinite;
+        -webkit-animation-direction: alternate;
+        animation: puppy 0.1s infinite;
+        animation-direction: alternate;
+   }
+   /* Safari needs a different support 
+   @-webkit-keyframes puppy {
+        0%   {background-position: 0px;}
+        50%  {background-position: -310px;}
+        100%  {background-position: -465px;}
+   }
+   @keyframes puppy {
+        0%   {background-position: 0px;}
+        50%  {background-position: 310px;}
+        100%  {background-position: 4655px;}
+   }
+   #a {
+        left: 0px;
+        width: 160px;
+        background: url('wolfSprite.png') 0 0;
+   }
+   #aa {
+        left: 63px;
+        width: 43px;
+        background: url('wolfSprite.png') -47px 0;
+   }
+   #aaa {
+        left: 129px;
+        width: 43px;
+        background: url('wolfSprite.png') -91px 0;
+   }
+   #aaah {
+        left: 129px;
+        width: 43px;
+        background: url('wolfSprite.png') -91px 0;
+   } */
+   img {
+       max-width: 100%;
+       height: auto;
+       padding: -5px;
+   }
+   </style>
+
+</head>
+
+<body>
+    <header>World of Darkness : Werewolf</header>
+
+    <section>
+    <div>
+        <top> 
+            <button type="button">Take a Note</button>
+            <button type="button">Characters</button> <!-- might change these to a link -->
+            <button type="button" onclick="runes()">Chance Runes</button>
+            <button type="button" onclick="intro()">Opening Text</button>
+        </top>
+    </div>
+    </section>
+
+    <nav>
+        <chapter> 
+            <!-- there was an error with the first one not rendering correctly
+            I just made it a fake header for the setion -->
+            <button class="accordionTitle" style=color:wheat>Chapters</button>
+            <!-- <div ="panel"></div> -->
+
+            <!-- Eventually these will reflect the correct blurbs of text too
+            but for now these buttons are just here to make sure everything is
+            working correctly. -->
+            <button class="accordion">A World of Darkness</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Section 1</button>
+                <button class="button" onclick="changeBack()">Section 2</button>
+                <button class="button" onclick="change3()">Section 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>                    
+            </div>
+
+            <button class="accordion">The Garou</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <button class="accordion">Characters and Traits</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <button class="accordion">Gifts and Rites</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <button class="accordion">Rules</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <button class="accordion">Systems and Drama</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <button class="accordion">The Umbra</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <button class="accordion">Storytelling</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <button class="accordion">Antagonists</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <button class="accordion">Allies and Ammunition</button>
+            <div class="panel">
+                <button class="button" onclick="changeText()">Chapter 1</button>
+                <button class="button" onclick="changeBack()">Chapter 2</button>
+                <button class="button" onclick="change3()">Chapter 3</button>
+                <button class="button" onclick="change4()">Das Wolfy</button>
+                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            </div>
+
+            <script>
+                /** This simply gathers all the different chapters and allows 
+                * the animation of the accordian buttons to work.
+                */
+                "use strict";
+                var acc = document.getElementsByClassName("accordion");
+                var i;
+
+                // populate and create action for clicking on accordion buttons
+                for (i = 0; i < acc.length; i++) {
+                    acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    
+                    // build hidden/shown subsections
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                      panel.style.display = "none";
+                    } else {
+                      panel.style.display = "block";
+                    } 
+                    });
+                }
+            </script>
+
+         </chapter>
+    </nav>
+
+    <article>
+        <div id="textBody">
+            <p>
+                <em>Easy now. Just keep taking deep breaths. Slow down if you 
+                can. That's it. Try to relax. Try not to think too hard about 
+                the last half hour. Keep calm.</em></p>
+            <p>
+                That's right. I'm a friend. I'm a... cousin, really. And I'm 
+                here to help you last out the night. I think we've got a minute 
+                before we're going to have to get away from here, so just keep 
+                breathing slowly and try to calm down.</p>
+            <p>
+                You might have known this was coming. Was it the dreams? 
+                Sometimes it's the dreams — dreams of running on all fours, 
+                smelling blood from miles away, the moonlight... Or maybe it was
+                the other kids. Did they treat you differently, like they could
+                somehow see something dangerous about you? That'll happen, too. 
+                And it all got worse as you got older. Once you started getting 
+                into your teenage years, the dreams got worse, and you started 
+                to feel something bottled up inside you. Your classmates avoided 
+                you. Maybe teachers thought you were acting funny, and they 
+                started asking if you were on drugs. And the pressure inside 
+                kept building.</p>
+            <p>
+                Yeah, I know the story. Particularly the next part. You got 
+                pushed too far. Something inside you snapped. The next thing you
+                knew, you were covered in blood, standing in a pile of guts and
+                flesh and bone that used to be a person — or people.</p>
+            <p>
+                It's okay! It's okay... This time, it's okay. The people here 
+                were trying to kill you. It was you or them. You did good. You 
+                just need to learn a little more control.</p>
+            <p>
+                Yeah, you guessed it. This happened to me once, too. And I was 
+                scared just like you.</p>
+            <p>Come on, it's time to go. Huh? Oh, yeah, right. Sorry.</p>
+            <p>
+                My name's Evan. And the spears are for self-defense — for times 
+                when the weaponry Mother gave me just isn't enough.</p>
+            <p>Let's move.</p>
+
+            <br /><h3>Wolves in the Fold</h3><br />
+
+            <p>
+                I think we might be safe here for a while. I've got a friend 
+                covering our tracks. I've got to hand it to you — I was afraid 
+                I'd have to drag you along with me. You've got good instincts. 
+                Time for you to find out where they come from. </p>
+            <p>
+                No, we can't go back. Your old life's dead — and if they catch 
+                us, there's a fair chance that your new life won't last much 
+                longer. They'll probably have silver this time.</p>
+            <p>
+                You don't know why you just shuddered when I said silver, do 
+                you? Or maybe you've guessed by now?</p>
+            <p>You've just gone through your First Change.</p>
+            <p>You're a <i>werewolf.</i></p>
+            <p>
+                You want to deny it? It sounds crazy, I know. Werewolves don't 
+                exist — that's just common sense, right? But think about it. Why
+                are people still scared of the dark? Why do they still kill 
+                wolves? Why do they have to have their camping gear and SUVs 
+                and bike paths and carefully controlled parks?</p>
+            <p>
+                Because something inside them <i>knows.</i> They know we're out 
+                here. You knew, too. Even though all you can think right now is,
+                "This freak with the spears is completely fucking nuts," part 
+                of you understands I'm telling the truth.</p>
+            <p>
+                Don't want to believe me? Look att|our hand. Nails are a 
+                little long, aren't they? You're really nervous right now, and 
+                it's Showing. Relax, calm down a little — there you go, back to 
+                normal. And try to keep calm. If you change right now, you 
+                aren't going to have a lot of control. The control comes later.
+            </p>
+            <p>Good. All right, here's the story.</p>
+            <p>
+                Whatever you've seen about werewolves on TV or in the movies — 
+                most of it's pure garbage. People tell these horror stories 
+                about people who turn into murdering animals, but they don't 
+                understand where exactly they came up with the idea. So they get 
+                a lot of it wrong. To them, werewolves are these solitary 
+                monsters that act like — well, they don't act like wolves, I'll 
+                tell you that. But people think a werewolf is some kind of 
+                person that turns into a wolf when the moon is full and goes on 
+                a mindless killing spree. Now, I'd be lying if I said that has 
+                no basis in fact — yeah, fact — but humans don't understand that 
+                werewolves aren't cursed humans. We're not really human at all, 
+                although we're often born from human — or wolf — mothers or 
+                fathers. We're our own people. We're the <i>Garou.</i></p>
+            <p>
+                Right. I can tell your subconscious recognizes the word. You 
+                already understand some of the language we speak when we're 
+                wearing wolf skins — it's an inborn gift from our Mother. She's 
+                given us a lot of gifts to help us. And the one that kept you 
+                alive when you were attacked, the one that makes us monsters, 
+                the one that makes us warriors — that's the one that's hardest 
+                to deal with. Unless I miss my guess, tonight was the first time 
+                you found out you had that gift — that you were capable of Rage.
+            </p>
+            <p>
+                Yeah, you can hear the capital letter, can't you? It's like the 
+                way people stress the difference between "a god" and "God." 
+                Everyone gets angry. Hell, these days, with people living so 
+                close-packed that they don't have any personal space to retreat 
+                to, anger's a lot more common. When the temperature rises in the 
+                big concrete cities, they start killing each other over lost 
+                tempers a lot more often. And that's <i>nothing</i> compared to 
+                what's beating inside your heart. It feels like fire, doesn't 
+                it? That's a special gift we have — a gift or a curse, depending 
+                on how you look at it. If there's one thing the movies get 
+                right, it's that it doesn't take much to make a werewolf angry 
+                enough to kill you.</p>
+            <p>
+                Well, the movies also get the silver thing right, but more about 
+                that later.</p>
+            <P>
+                Your First Change was a bloody one — they always are. When I 
+                changed for the first time, I was running for my life, same as 
+                you. But when the change came over me, I stood and fought. And I 
+                killed. That's usually how it goes. You're born with Rage, 
+                although you don't know it^r and it keeps on building up inside 
+                you as you get older, until something happens to make it all 
+                explode out of you. I know Garou who were beaten — or worse — as 
+                children, until they finally couldn't take it any more. The 
+                first blood they drew as werewolves was that of their abusers. 
+                It could even have happened at school, if you were cornered and 
+                attacked. And that's when the killing fever — the frenzy — rides 
+                you. There's no more serious thing than a frenzy. When your Rage 
+                overpowers you, you can't control yourself. All you want to do 
+                is flee or kill. You could kill anyone, even your family, while 
+                in that state. That's where the root of the legend comes from. 
+                You were lucky — when your First Change hit the ones around you 
+                were enemies.</P>
+            <p>
+                Yes, we have enemies. I said we had gifts from our Mother, 
+                right? We have supernatural speed, strength, stamina — we can 
+                take a bullet to the heart and keep fighting, tear apart a car 
+                without breaking a sweat, even call on the power of the Earth 
+                itself to strike down our foes. The Mother wouldn't have given 
+                us all these things if we didn't need them. We're Her warriors, 
+                born and bred. You, me — we were designed to kill. There's a war 
+                raging, a war that stretches across the whole globe and beyond. 
+                And vicious killing machines like you and me — we're the good 
+                guys. Our enemies are far worse.</p>
+            <p>
+                Okay, I'm losing you. Let's see if I can put this a little more 
+                clearly.</p>
+
+            <br /><h3>Born to Power</h3><br />
+
+            <p>
+                I said the word "supernatural" before. It's an interesting word 
+                for what we are. It means "beyond nature," right? Well, that's 
+                sort of accurate. We aren't really literally beyond nature, of 
+                course. It's just that humans have a limited perception of what 
+                nature is. All they see is the physical side of things. Oh, 
+                sure, they keep trying to reach for some greater cosmological 
+                truth — just look at those New Age types, all convinced they're 
+                reincarnations of Ramses and Cleopatra. Or look at the 
+                churchgoers who are convinced that if they do exactly what the 
+                priest says, they'll go directly to Heaven where they can look 
+                down on all the people they hate in Hell and laugh. But they're 
+                not looking in the right place. Humanity wants the quick fix. 
+                They suspect there's something bigger than them in the world, 
+                but they want to be told exactly the right words to say and the 
+                right things to wear so that they can get instant gratification 
+                or enlightenment. And the more they look for the quick and easy 
+                way to something sublime, the farther they get from actually 
+                touching it.</p>
+            <p>
+                We're a little luckier than they are. We're born with a portion 
+                of the world's soul in our bodies. That's where our power comes 
+                from-—we are nature. We're spirits made flesh. We're creatures 
+                of the two worlds — man and beast, flesh and spirit.</p>
+            <p>
+                It's this way from birth. You weren't born human; even though no 
+                doctor, no blood or DNA test could tell the difference, There's 
+                no gene to express what makes us what we are. For all anyone 
+                could tell, we're normal human children. Or wolf-cubs, for that 
+                matter. That's an important thing. We Garou can't mate with each 
+                other — well, we <i>can,</i> but it's like incest. Our blood's 
+                too potent, too powerful to produce healthy children if we mate 
+                with each other. We have to dilute it with the blood of humans 
+                and wolves if we want a healthy generation of cubs. We can't 
+                just bite somebody and make them one of us — and it's for the 
+                best that way. Because we need humans and wolves to pass on our 
+                line, we have to protect humanity and wolves alike for our own 
+                good as well as theirs. And believe me, if it weren't for that, 
+                humanity might have died out long ago. There are too many of us 
+                who see humans as the enemy.</p>
+
+            <br /><h3>The Moon-Kissed</h3><br />
+
+            <p>
+                Now, the way I've been talking, you might assume that all of our 
+                power comes from some sort of invisible supernatural gene. It 
+                doesn't work that way. Like I said, we're tied into the entire 
+                world, both physical and spiritual, and those connections take a 
+                lot of forms. We draw some of our power from our birthright, 
+                sure. But it's not always who you're born to. Sometimes it's 
+                <i>when</i> you're born that makes a difference.</p>
+            <p> 
+                You know the legends about the full moon — that's when 
+                werewolves change, right? Well, there's a full moon tonight. I 
+                can feel it pulling on my blood; you can feel the same thing, 
+                can't you? The full moon's a warrior moon. As the moon waxes and 
+                wanes, so does our Rage.</p>
+            <p>
+                That connection to the moon's with us from birth. Luna — the 
+                spirit of the moon — kisses each one of us as we're born and 
+                gives usvplar anger. The more of her light in the sky on the 
+                night of your birth, the more Rage you carry within you. Forget 
+                astrological signs and planetary influences. The phase of the 
+                moon is what marks our destiny. I was born under a half moon: 
+                the judge's moon. I was born half in light, half in shadow, so 
+                it's my task to keep the laws, to see both sides of every 
+                problem.</p>
+            <p>
+                Who are "they"? "They" are the werewolves who guard this portion 
+                of the land. They're your relatives, your godparents: your 
+                tribe.</p>
+
+            <br /><h3>The Wolf's Blood</h3><br />
+
+            <p>
+                Wolves run in packs — you knew that. They're social creatures, 
+                as are we. But our Rage keeps us from living among humans or 
+                wolves as if we belonged there. It wouldn't be safe for our 
+                husbands and wives, our children or friends even if we could. 
+                Like I said, we're at war.</p>
+            <p>
+                The only ones we can really rely on are each other. It's been 
+                that way since the First Days. And since the First Days, we've 
+                kept the traditions that, some say, were given to us by the 
+                Mother Herself.</p>
+            <p>
+                That's right. The Garou have been a society since before 
+                Christianity and before Egypt. We're part of a society that's 
+                kept most of the same laws since before humans learned to bake 
+                mud and straw into bricks.</p>
+            <p>The war's been going on that long.</p>
+            <p>
+                They weren't always <i>good</i> laws, though. We'Ve fought each 
+                other in civil wars, slaughtered humans who offended us, made 
+                war on our distant cousins. We've got rivers of blood on our 
+                collective hands.</p>
+            <p>
+                See, there's a reason humans still believe in us deep down 
+                somewhere after all these years. There's a reason why they laugh 
+                at the idea that we might be real, but have nightmares about our 
+                fangs and claws. They forget most of these nightmares. Most of 
+                them. But they still remember, deep down. They remember that 
+                long ago, even before the dawn of agriculture, wolf-beasts leapt 
+                from the forests to kill them when they grew too numerous. Our 
+                ancestors <i>culled</i> humanity, killing the young and the old 
+                alike to keep the population down to "reasonable" numbers. They 
+                called it "the Impergium."</p>
+            <p>
+                And humanity still remembers. I think that's why they cut down 
+                forests and kill wolves whenever they can. I think that might 
+                even be why they have families that are too large for them to 
+                support, why they kill more than they need to survive, eat more 
+                than they have to and throw away the rest. Somewhere in their 
+                subconscious, they're trying to survive as best they can and 
+                fight back against us in the process. Even if they don't 
+                remember that we're real.</p>
+            <p>
+                We <i>are</i> real, though. We've been here almost forever. The 
+                tribes of the Garou have managed to hang on until the Final 
+                Days.</p>
+            <p>
+                Well... not all of them. Once there were 16, now only 13 remain. 
+                Thirteen tribes of us — well, 12 that still talk to each other, 
+                and a 13th that's decided to strike out on its own. The 12 that 
+                remain are the Garou Nation — your people.</p>
+            <p>
+                Yes, your people. They couldn't raise you among them — it was 
+                too important that you and all of us human-born Garou grow up in 
+                human society, so that we could understand humans. It's the same 
+                way with the lupus, the wolf-born; they have to grow up as 
+                wolves so they understand just what it is they're fighting for. 
+                When you were born, you were marked by a spirit whose sole job 
+                was to watch over you as you grew up and then to come and tell 
+                your kinsmen when you Changed that it was time. And it is time.
+            </p>
+            <P>
+                But your relatives — your tribe — are under attack. The enemy 
+                chose to assault them and you at the same time; I guess they 
+                hoped to separate you from your tribe so they could capture you. 
+                They always capture if they have a chance. A young werewolf's 
+                worth much more to them alive than dead.</P>
+            <p>No. Don't ask why. Not yet.</p>
+            <p>
+                If you think the guys who came to collect you were bad, you 
+                should see the people — the <i>things</i> — that your relatives 
+                are fighting right now. They needed their strongest to help 
+                defend their territory, and they couldn't be sure that a younger 
+                one could reach you in time. So I volunteered.</p>
+            <p>
+                No, I'm not one of your kin — at least not directly. We might be 
+                tribemates, but that remains to be seen. I was visiting the area 
+                on business. You see, I've got a mission of my own. Everyone has 
+                a purpose, and once we get you safely back to your kin, you can 
+                start finding out about yours.</p>
+            <p>
+                It seems a little fascist, huh? It's not like anyone ever asked 
+                you if you wanted to be born to a people in the middle of the 
+                war. But we need you; we need everyone we can get. The war is 
+                the dirtiest war you can imagine — you may even see your 
+                packmates slaughtered, tortured or worse. Trust me... it'll
+                happen. But you can't ask for a nobler cause. </p>
+            <p>
+                I don't expect you to believe this, but you may soon find that 
+                your pack and your tribe become better friends, closer 
+                relatives, than you've ever had in your life. You'll never be 
+                able to walk among humans as one of them — the Rage inside you 
+                prevents that. You have a place to turn, though: Your pack and 
+                tribe are family. For most of us, our packmates and tribemates 
+                are the only ones we can rely on. They're the only ones who'll 
+                help us fight against the Enemy.</p>
+            <p>
+                Yeah, I know. I hear you. But listen, there are a couple of 
+                things you need to see firsthand before I can tell you more 
+                about them. If I tell you who's after you — us — and why right 
+                now, you won't believe me. Trust me. You need to see for 
+                yourself.</p>
+            <p>
+                Now's as good a time as any. Don't worry, I'll help you through 
+                this. Look into that window there. Not at the mannequins look at 
+                your reflection. Focus on your reflection's eyes.</p>
+            <p>
+                Now stop focusing. Let go, Look beyond the reflection — again, 
+                not at the mannequins, but at the world behind the reflection. 
+                Look beyond yourself. Look beyond the background, into the whole 
+                three-dimensional world that's stretching out from that one.</p>
+            <p>
+                You'll feel something pushing against you. Don't fight it. Slide 
+                between the spaces. Go beyond the reflection.</p>
+            <p>That's it. You're almost—</p>
+
+            <br /><h3>A Higher Reality</h3><br />
+
+            <p>You made it. Congratulations.</p>
+            <p>
+                Oh, sorry — I guess it's a little much to take in all at once. 
+                Go ahead, take a long look.</p>
+            <p>
+                This is the Umbra — the spirit World. This is the other side of 
+                reality, the immaterial counterpart to the physical world. The 
+                spirits that fuel the world live hire.Change something here, and 
+                you might change it in the physical world, too. Chop down the 
+                spirit of a giant tree, and the tree's physical body will die. 
+                That's why it's so important that we're the wolves that walk 
+                between the worlds, as my great-grandfather put it. Our war is 
+                raging in both the physical world and the Umbra; we have to be 
+                able to fight on both battlefronts.</p>
+            <p>
+                It kind of makes your skin crawl a little, doesn't it? Yeah, 
+                that's why most of our kind don't like to come into the cities 
+                unless they have to. The webs coating everything — that's what 
+                the world's coming to. Those Pattern Spiders — the metallic 
+                spider-spirits all over the place, the ones big as St. Bernards 
+                — they're the ones spinning the spirit webs, but they draw all 
+                their power from humans.</p>
+            <p>
+                That webbing is in the heart of every city and every town on the 
+                face of the planet. It's the mark of the Weaver. The Weaver is — 
+                well, she's one of the most immense spirits you can imagine. 
+                She's conformity, order, progress — she's repetition and 
+                organization. She's reason, science, dogma — she's the demon at 
+                every human being's heart that demands that the world be safe, 
+                and that it above all make sense. She's trying to bind the whole 
+                world in her webs, crazy old thing. Everything wild and primal 
+                and disorderly — she wants it locked down, curbed, tamed. But 
+                she's got so much power that it just might happen.</p>
+            <p>
+                And down that way — dowli toward that industrial plant. You see 
+                those greenish fires billowing out of those smokestacks? The 
+                ones that look practically radioactive? We'll come back to 
+                those, that's something particularly important.</p>
+            <p>
+                This is what we're up against, though. The Weaver's webs are out 
+                of control — and the Enemy... well, they're here, too. It's damn 
+                near impossible to even hold our ground against these odds, but 
+                we do have allies. The spirits of nature, of animals and plants 
+                and elements are on our side. That doesn't mean they're 
+                <i>friendly</i> now — you can't exactly expect the spirit of a 
+                hurricane to genuinely have your well-being foremost in its mind 
+                but they're on our side. If we need to we can call, and if we 
+                prove our good intentions to them, they'll help.</p>
+            <p>
+                Here's the proof. You asked before about these spears, and I'll 
+                admit it seems stupid to bring a spear to a gunfight. Pretty 
+                useless in the 21st century, right? If they were just wood and 
+                metal and flint, I'd agree with you — but they're something 
+                more. Here — take this one.</p>
+            <p>
+                You can feel it, can't you? Something... alive inside the wood, 
+                right? That's because there is something in there — a spirit. A 
+                Garou warrior made this spear, crafted it from the finest wood 
+                and forged its head from the finest metal. And then he called on 
+                a spirit of the storm, using ancient rites and soft speech to 
+                propitiate it. He offered it tobacco and praise and song. In 
+                return, it agreed to live inside that spear, like a genie in a 
+                bottle, and lend its strength to him — or to any Garou who 
+                promised to use the spear well in defense of the Mother.</p>
+            <p>
+                That spear will tell you more than ten thousand words could 
+                about the friendship between us and the spirits, about the 
+                sacrifices that we're all willing to make to defend the Mother 
+                and Her creations against the Wyrm.</p>
+            
+            <br /><h3>The End of the War</h3><br />
+
+            <p>
+                Okay. Now it's time. You've learned what you are, you've seen 
+                the spirit world. It's time to learn why you've been chosen.</p>
+            <p>
+                Werewolves are monsters — I'm not going to argue the point. We 
+                are. We are also necessary. As I've said before, everything we 
+                are, we are because that's how the Mother made us. When I say 
+                the Mother, I mean Mother Earth, Mother Nature — we call Her 
+                Gaia. She is the entire planet"— according to some^ She's the 
+                entire universe. We can't tell for sure. All we know is that 
+                She's huger than we can measure. And yet, She's in very real 
+                danger. One of the three most powerful forces in... <i>of</i> 
+                the universe is gnawing at Her from the inside.</p>
+            <p>
+                That force... That's what I'm talking about when I say the Wyrm.
+            </p>
+            <p>
+                The Wyrm — where do I start? The Wyrm used to be balance, the 
+                dividing line between the Weaver's order and the chaos of a 
+                force we call the Wyld. While all three were in harmony, the 
+                universe was in balance. But the balance was shifted — 
+                corrupted. Somehow, the Weaver went mad, and in the process she 
+                drove the Wyrm mad as well.</p>
+            <p>
+                But the Weaver is still the Weaver, still the force of order. 
+                The Wyrm — the Wyrm became something else. It was devoured by 
+                its  own pain and anger, and it became hate itself. It lies in a 
+                pit  deep at the roots of the universe, where it thrashes in 
+                constant  agony. Each horrible thought it has — each urge for 
+                revenge,  each maddened desire to kill or seduce or destroy — 
+                each one  becomes a spirit of corruption and is loosed on the 
+                universe.  And these spirits feed on the evils they find in the 
+                world, and  get stronger. Every murder, every rape, every 
+                beating — it all feeds the Wyrm's children.</p>
+            <p>
+                So, like any other entity, they try to make their food source 
+                thrive. They encourage humanity — and even us — to destroy and 
+                defile, because it strengthens them. It's hard for us to resist 
+                the urge to kill without a second thought, but we have to — 
+                otherwise we feed those spirits. As they get stronger, so does 
+                their father — until it'll finally be strong enough to break 
+                free and take his insane revenge out on Creation itself.</p>
+            <p>
+                Yes, it's real. Real as gravity or sunlight or thunder. I've 
+                never seen it myself, and I've never heard of anyone who has — 
+                but we know.</p>
+            <p>
+                The tales say it'll break its bonds and come into the world in 
+                physical form in the last battle — the final battle of, the 
+                Apocalypse. And the signs show that the final battle is at hand. 
+                Look, up there — you can't see it in the physical world yet, but 
+                you can see it here. The Red Star — Anthelios. Some call it the 
+                Eye of the Wyrm; others say it's the Anti-Sun. It appeared only 
+                a year or two ago. And I think it's getting brighter. It's the 
+                harbinger of the final battle, of the end of it all.</p>
+            <p>
+                If the Wyrm does break free... It must be the size of a 
+                continent. The human race — and yes, our kind — has certainly 
+                fed it enough over the millennia. The thing is so vast that—</p>
+            <p>...</p>
+            <p>
+                Sometimes in my dreams, even in my visions, I'm looking down on 
+                a colossal mountain, sometimes even a mountain range, from far 
+                above. And as I'm watching, the mountain starts to <i>move</i> — 
+                it starts to slide up almost beyond my field of vision. I can 
+                see the great, dark, wet hollow beneath it — and then the light 
+                starts to reflect on that hollow. I start seeing color, this 
+                jaundiced yellow-green that's spread out wide across the 
+                underside of the mountain,-— and then I see <i>it,</i> right in 
+                the center of the color.</p>
+            <p><i>The pupil.</i></p>
+            <p>
+                I'm not ashamed to say that I start trying to scream when I see 
+                that. But that's what we're up against. That's the Wyrm — so 
+                huge, so invincible that there's just no point in trying to kill 
+                it. Teeth and claws just won't get the job done.</p>
+            <p>
+                But we're not trying to kill it. We're tryiniito beat it. 
+                There's a difference.</p>
+
+            <br /><h3>Into the End Times</h3><br />
+
+            <p>
+                You see now, cousin? We've got an impossible task ahead of us. 
+                Somehow we have to make enough of a difference to cut the Wyrm's 
+                feet out from under it. Somehow we have to make the world strong 
+                enough to survive the Apocalypse. We might all die in the 
+                process — it's a very real possibility. And it has to be done in 
+                our lifetime — no more waiting for our children to fix the 
+                planet.</p>
+            <p>
+                But there's the problem. I keep saying "us," and I know that I 
+                can't in good conscience order you to follow me. You have to 
+                join in the war of your own free will, or you won't be able to 
+                do the world any good. There's nowhere left that you'll be truly 
+                safe, I'm afraid — but you might escape for a while.</p>
+            <p>
+                I can't force you to follow me or to fight with your tribe. It's 
+                up to you.</p>
+            
+            <br /><p><i>Well? What'll it be?</i></p>
+
+        </div>
+    </article>
+
+</body> 
+
+    <!-- to do: put an animation in bottom left 
+    <div id="animation"></div> -->
+
+</html>
