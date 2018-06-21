@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+   <title>The HTML/CSS Experience</title>
+   <meta charset='UTF-8'>
+   <meta name="viewport" context="width=device-width, initial-scale=1.0">
+   <meta name="discription" content="HTML, CSS, JavaScript">
+   <meta name="version" content="v1.2">
+   <meta name="author" content="Orsa">
+   <script> function changeText() { 
+       document.getElementById("bp1").innerHTML="Change the text to something"
+       + "better?";
+   }   
+   </script>
+<style>
+h2	{
+	font-family: Helvetica;
+	text-align: center;
+}
+p	{
+	color: MidnightBlue;
+	font-family: Verdana;
+}
+a:link  { 
+	color: white; 
+    	background-color: transparent; 
+    	text-decoration: none;
+}
+a:visited {
+	color: MidnightBlue; 
+    	background-color: transparent; 
+   	text-decoration: none;
+}
+a:hover {
+	color: white; 
+    	background-color: transparent; 
+    	text-decoration: none;
+}
+a:active{
+	color: red; 
+    	background-color: transparent; 
+    	text-decoration: none;
+}
+dl	{
+	color: MidnightBlue;
+	font-family: Verdana;
+}
+dt	{
+	color: MidnightBlue;
+	font-family: Verdana;
+}
+dd	{
+	color: MidnightBlue;
+	font-family: Verdana;
+}
+
+</style>
+</head>
+
+<body style='background-color:LightSteelBlue;'>
+
+<!-- This is so that I can test the html code and create something light for practice -->
+<h2 style='text-align:center;' style='font-family:Ariel;'>HTML and CSS</h2>
+<br>
+<p>So you wanted me to go ahead and learn HTML, or at least the basics of it. I've gone through the 
+W3 little class on it. As I told Grey, it seems to me like HTML is a half language. You can make 
+websites with it, and stylize some text... But it's not really a programming language like I'm used 
+to seeing. You need another... <em>something</em>, to do any actual processing with it. It's kinda 
+like like a very specific enviroment in which to build a GUI. Still though, it's a thing.</p>
+<br>
+<p>Even so, there are a bunch of extra things you have to look at. But it does pretty well for 
+getting the basics down. Like everything else, I eventuall have to go 
+<a href='http://www.google.com' target='_blank'>else-where</a> to get some more examples of what I 
+want to do (or to answer lingering/harder questions.</p>
+<br>
+<p>Neat thing is that I will be able to list off a few skills now:
+<dl> <dt>Java</dt>
+<dd>- learned new JavaFx, plus got back up to speed on it.</dd>
+<dt>HTML</dt>
+<dd>- which is both easy and complicated, depending.</dd>
+<dt>CSS</dt>
+<dd>- because without it, websites get the 90s look</dd>
+<dt>And to a lesser degree JavaScript.</dt>
+<dd>- at least enough to understand what I'm looking at.</dd>
+</dl> </p>
+
+<h2>A little bit about script...</h2>
+<noscript>Sorry, seems like your browser is not supporting JavaScript at the moment.</noscript>
+<script>
+    document.getElementById("demo").innerHTML = "Hello JavaScript!";
+</script>    
+<!-- This will be important to remember later when I set up a GUI with a load of buttons. This will
+easily change the text of at least one or two paragraphs to make it work. Fun bit is accessing
+the non-net SQL files -->
+<button type="button" onclick="changeText()">Change it?</button>
+<p id="bp1">As it stands this is some bad text. Maybe we should...</p>
+
+
+
+
+
+</body>
+</html>
