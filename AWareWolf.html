@@ -12,7 +12,7 @@
     first page load. Putting call here for that to be used in the future.
     <script src="chapters.js"></script> -->
    <script>
-       "use strict";
+       //"use strict";
 
        /** Function runes() is going to be a random dice roll gen. It's going to
        * be modified a little to make it operate within the rules of the WOD
@@ -86,22 +86,34 @@
        }
        function rpClose() { rP1.style.display= "none"; } 
 
-       // at the moment this is going to change the opening text, but the top
-       // buttons are still being finalized for the momoent I'm just going to
-       // have it open another instance of this page.
-       function intro() {
-       }
-       /** Function notes() is a mini-app that will open up an editable notepad
-       * so the user can save notes to a (local) database or file. It will allow
-       * them to reopen saved notes and print them off if they choose.
+       /** Function intro() will clear out the text area and display the opening
+       * story that's first loaded when you reach the page.
        */
-       function notes() {
+       function intro() {
+           // call from db to get opening story
+       }
+       /** Function notes() will hide the main article area and display the div
+       * containing the buttons and textarea for the Notes section.
+       */
+       function switchNotes() {
+           textBody.style.display= "none";
+           noteBtns.style.display= "block";
+           noteArea.style.display= "block";
        }
        /** This function I may just remake to a different HTML page. Either way
        * it's going to be a character sheet that includes the dice roller from
        * above tacked on the side so it's always availble. 
        */
        function charSheet() {
+       }
+       /** Function switchChap will hide the div containing the buttons and
+       * text area for the note Section. Then reenable the main article div so 
+       * the user can continue to scan the chapters/sections again.
+       */
+       function switchChap() {
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
 
        /** All of the following functions are going to be used to access 
@@ -121,337 +133,138 @@
            + "open explode into a fury of claws and fangs. Beasts that howl " +
            "under the full moon and kill those that cross the boundaries of " +
            "their territory...</p>" + "<p><b><i>Werewolves.</i></b></p>";
+           
+           // adding ability to change back to chapters by clicking on btns
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
-       function changeBack() {           
+       function changeBack() { 
            document.getElementById("textBody").innerHTML="<p>And now, for " +
            "something completely different...</p>";
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        } 
        function change3() {
             document.getElementById("textBody").innerHTML="<p><em>Add some " +
             "stuff from Ch3...</em></p>";
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
        function change4() {
             document.getElementById("textBody").innerHTML='<img src="wolf.png"' 
             + 'width="500" height="500" alt="wolf picture"></img>';
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
        function change5() {
             document.getElementById("textBody").innerHTML="Add some stuff from" 
             + " Ch5...";
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
        function change6() {
             document.getElementById("textBody").innerHTML="Add some stuff from"
             + " Ch6...";
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
        function change7() {
             document.getElementById("textBody").innerHTML="Add some stuff from"
             + " Ch7...";
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
        function change8() {
             document.getElementById("textBody").innerHTML="Add some stuff from" 
             + " Ch8...";
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
        function change9() {
             document.getElementById("textBody").innerHTML="Add some stuff from" 
             + " Ch9...";
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
        }
        function soupDrinker() {
             document.getElementById("textBody").innerHTML="<p><em>What are you" 
             + " doing?</em></p> <p>It is not time to drink soup!</p>";
+
+           textBody.style.display= "block";
+           noteBtns.style.display= "none";
+           noteArea.style.display= "none";
+       } 
+       /* end of text change functions for the moment */
+
+
+       /** Function getNote() will make a call to the local storage area client-
+       * side to grab a previously saved file then load that into the text area
+       * so the user can read/edit it.
+       */
+       function getNote() {
+           var file;
+           var note = "";
+
+           if (file != null) {
+               note = JSON.parse(file);
+               console.log(note);
+               //document.getElementById(noteTextArea).innerText= note;
+           } else { alert("Error reading file"); }
+       }
+       /** Function saveNote() will allow the user to save a feil to the client-
+       * side local storage device that can be pulled later on with getNote(). 
+       * All content in the textArea will be copied to the file.
+       */
+       function saveNote() {
+            var note = document.getElementById("noteArea").value;
+            var nJSON;
+            
+            if (note != null && note.length >= 1) {                
+                nJSON = '{"note":' + JSON.stringify(note) + '}';
+                console.log(nJSON);
+
+                // still learning how to save locally
+
+            } else { alert("No text detected"); }
+       }
+       /** Function print() will grab all text from the noteArea and open a new,
+       * cleaner CSS sheet for printing.
+       */
+       function printNote() {
+            // this may be un-needed, but only want to print noteArea
+            var d = document.getElementById("noteArea").value;
+            win = window.open();
+            win.document.write( '<html><head><link rel="stylesheet" ' + 
+                'href="print.css" /></head><body><header>World of Darkness :' +
+                ' Werewolf</header>' );
+            win.document.write( d );
+            win.document.write( '</body></html>' );           
        }
    </script>
 
-   <!-- As with the script above, this CSS block will get moved to another file 
-    at some point as well. So I'm going to add the call here for it.
-    <link rel="stylesheet" href="wodStyle.css"> -->
+    <link rel="stylesheet" href="wodCss.css" /> 
+    <!-- external CSS for printing and normaly layout added. I'll leave style
+        tag here though to qickly change things as I go before adding it to main
+        css file.
    <style>
-   * {
-       box-sizing: border-box;
-   }
-   body {
-       text-align: justify;
-       background-color: black;
-   }
-   header {
-       background-color: rgb(38, 41, 44); 
-       background-size: 40px;
-       border-radius: 50px 50px 0px 0px;
-       text-align: center;
-       font-family: fantasy;
-       font-size: 30px;
-       color: rgb(182, 0, 0);  
-       width: 100%;
-       padding: 5px;
-       padding-bottom: 5px;
-       border: none;
-       
-   }
-   /** div top is a subsection under the main title/header of the page. It 
-   * houses a few butons that will link to another page or pull some mini-apps 
-   * on to the page. planned links in this case are for saving notes, opening a 
-   * character sheet, opening a dice rolling app, and resetting back to the 
-   * original opening text. 
-   */
-   div top {
-       background-color: darkgray;
-       display: flex;
-       justify-content: space-evenly;
-       height: 40px;
-       width: 100%;
-       padding: 10px;
-
-   }
-   /** nav chapter will be the area containing all the different links in 
-   * accordian style buttons. So a user can click on each different chapter in 
-   * the main button which drops down the individual sections. Those will have 
-   * script calls that will pull the correct info from a SQL DB on the server.
-   */
-   nav chapter {
-        background-color: lightslategray;
-        border-radius: 0px 0px 15px 15px;
-        list-style-type: none;
-        float: left;
-        width: 20%;
-        min-height: 80%;
-        max-height: 80%;
-        margin: auto; 
-        padding: 5px; 
-   }
-   .button {
-       background-color: lightslategray;
-       border: none;
-       color: wheat;
-       padding: 5px 5px;
-       text-align: center;
-       text-decoration: none;
-       display: inline-block;
-       font-size: 15px;
-       margin: 0;
-       width: 100%;
-       cursor: pointer;
-       border-radius: 12px;
-   }
-   .accordion {
-       background-color: lightslategray;
-       color: black;
-       font-size: 15px;
-       cursor: pointer;
-       padding: 5px;
-       width: 100%;
-       text-align: left;
-       border: none;
-       outline: none;
-       transition: 0.4s;
-   }
-   .active, .accordion:hover {
-       background-color: wheat;
-       color: black;
-   }
-   .accordion:after {
-       content: "\1F43E"; /* double paw print symbol */
-       color: black;
-       font-weight: bold;
-       float: right;
-       margin-left: 5px;
-   }
-   .active:after {
-       content: "\219F"; /* up two headed arrow symbol */
-   }
-   .panel {
-       padding: 5px;
-       background-color: lightslategray;
-       display: none;
-       overflow: hidden;
-       height: fit-content;
-   }
-   .button:hover {
-        background-color: wheat;
-        color: black;
-   }
-   .button:after {
-       background-color: lightgrey;
-       color: midnightblue;
-   }
-   /* added the title one to fix a problem with the overall display. It doesn't
-   * really do anything but have centered text and act as a fake header/title. 
-   */
-   .accordionTitle {
-       background-color: lightslategray;
-       color: black;
-       font-size: 15px;
-       cursor: pointer;
-       padding: 5px;
-       width: 100%;
-       text-align: center;
-       border: none;
-       outline: none;
-       transition: 0.4s;
-   }
-   /** the article is where the requested chapter link text will be displayed. 
-   * This sets up the area and the background picture so when the new HTML code 
-   * is called it will follow established styles and look the same. 
-   */
-   article {
-       background-image: url(yellow-old.jpg);
-       float: right;
-       border-radius: 0px 0px 15px 15px;
-       min-width: 80%;
-       max-width: 80%;
-       min-height: 80%;
-       max-height: 80%;
-       margin-bottom: auto; 
-       padding: 20px;
-       overflow: auto;
-       border: none;
-   }
-   h3 {
-       text-align: center;
-       font-family: Tahoma;
-       color: midnightblue;
-   }
-   p {
-        text-indent: 50px;
-        font-family: Helvetica;
-        font-weight: bold;
-        color: black;
-   }
-   ul {
-       list-style-type: none;
-       margin: 0;
-       padding: 0;
-       width: 100%;
-   }
-   li a {
-       display: block;
-       color: black;
-       font-size: 15px;
-       margin: 0;
-       padding: 0;
-       text-decoration: none; 
-   }
-   li a:hover{
-       background-color: wheat;
-       color: black;
-   } /* had created a tool tip for something but never implemented it,
-        may add it on something later, leaving code here in case.
-   .tooltip {
-        position: relative;
-        display: inline-block;
-   }
-    .tooltip .tooltiptext {
-        visibility: hidden;
-        width: 120px;
-        background-color: midnightblue;
-        color: wheat;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px 0;
-        position: absolute;
-        z-index: 1;
-        top: 150%;
-        left: 50%;
-        margin-left: -60px;
-        opacity: 0;
-        transition: opacity 1s;
-   }
-    .tooltip .tooltiptext::after {
-        content: "";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: transparent transparent midnightblue transparent;
-   }
-    .tooltip:hover .tooltiptext {
-        visibility: visible;
-        opacity: 1;
-   } */ 
-   /* attempting animation. couldn't get it to work. Will try later or change
-      how I'm going to do this. Might be easier to just add a .gif
-   #animation {
-        display: flow-root;
-        position: bottom;
-        width: 150px;
-        height: 175px;
-        border: hidden;
-        background-color: transparent;
-        background-image: url("aniwolf.png");
-        -webkit-animation: puppy 0.1s infinite;
-        -webkit-animation-direction: alternate;
-        animation: puppy 0.1s infinite;
-        animation-direction: alternate;
-   }
-   /* Safari needs a different support 
-   @-webkit-keyframes puppy {
-        0%   {background-position: 0px;}
-        50%  {background-position: -310px;}
-        100%  {background-position: -465px;}
-   }
-   @keyframes puppy {
-        0%   {background-position: 0px;}
-        50%  {background-position: 310px;}
-        100%  {background-position: 4655px;}
-   }
-   #a {
-        left: 0px;
-        width: 160px;
-        background: url('wolfSprite.png') 0 0;
-   }
-   #aa {
-        left: 63px;
-        width: 43px;
-        background: url('wolfSprite.png') -47px 0;
-   }
-   #aaa {
-        left: 129px;
-        width: 43px;
-        background: url('wolfSprite.png') -91px 0;
-   }
-   #aaah {
-        left: 129px;
-        width: 43px;
-        background: url('wolfSprite.png') -91px 0;
-   } */
-   img {
-       max-width: 100%;
-       height: auto;
-       padding: -5px;
-   }
-   .runePanel {
-       display: none;
-       background-color: whitesmoke;
-       color: steelblue;
-       position: fixed;
-       top: 15%;
-       right: 20%;
-       border-radius: 30px 30px 30px 30px;
-       padding: 20px;
-       border: none;
-   }
-   .runeText {
-        text-indent: 0px;
-        font-family: Helvetica;
-        font-weight: bold;
-        color: black;
-   }
-   .runeButton {
-       background-color: whitesmoke;
-       border: none;
-       color: steelblue;
-       padding: 5px 5px;
-       text-align: center;
-       text-decoration: none;
-       display: inline-block;
-       font-size: 15px;
-       margin: 0;
-       width: 100%;
-   }
-   .runeButton:hover {
-        background-color: steelblue;
-        color: black;
-   }
-   </style>
+   </style> -->
 
 </head>
 
@@ -461,10 +274,11 @@
     <section>
     <div>
         <top> 
-            <button type="button">Take a Note</button>
-            <button type="button">Characters</button> <!-- might change this to a link -->
-            <button type="button" onclick="rpOpen()">Chance Runes</button>
             <button type="button" onclick="intro()">Opening Text</button>
+            <button type="button">Characters</button> <!-- might change this to a link -->
+            <button type="button" onclick="rpOpen()">Chance Runes</button>            
+            <button type="button" onclick="switchNotes()">Take a Note</button>
+            <button type="button" onclick="switchChap()">Read a Page</button>
         </top>
     </div>
     </section>
@@ -473,7 +287,7 @@
         <chapter> 
             <!-- there was an error with the first one not rendering correctly
             so I just made it a fake header for the setion -->
-            <button class="accordionTitle" style=color:wheat>Chapters</button>
+            <button class="accordionTitle">Chapters</button>
 
             <!-- Eventually these will reflect the correct blurbs of text too
             but for now these buttons are just here to make sure everything is
@@ -596,11 +410,11 @@
     </nav>
 
     <article>
-        <div id="textBody"> 
+        <div id="textBody" class="textBody"> <!-- 
             <p>
                 <em>Easy now. Just keep taking deep breaths. Slow down if you 
                 can. That's it. Try to relax. Try not to think too hard about 
-                the last half hour. Keep calm.</em></p>
+                the last half hour. Keep calm.</em></p> 
             <p>
                 That's right. I'm a friend. I'm a... cousin, really. And I'm 
                 here to help you last out the night. I think we've got a minute 
@@ -1108,11 +922,26 @@
                 safe, I'm afraid — but you might escape for a while.</p>
             <p>
                 I can't force you to follow me or to fight with your tribe. It's 
-                up to you.</p>
+                up to you.</p> -->
             
             <br /><p><i>Well? What'll it be?</i></p>
 
         </div>
+        <div id="noteBtns" style="display: none">
+            <button type"button" id="open" class="buttonNote" style="width: 30%" 
+            onclick="getNote()">Open previous note</button> 
+            <button type"button" id="save" class="buttonNote" style="width: 30%"
+            onclick="saveNote()">Save a note for later</button>
+            <button type"button" id="print" class="buttonNote" style="width: 30%"
+            onclick="printNote()">Print your note</button>
+        </div>
+            <!-- There's an annoying thing I noticed when using the text box, 
+            every time that I push the tab button it seems to change what is 
+            focused as opposed actually indenting like in a normal text editor. 
+            I'll have to look into that later on. -->
+        <br /><textarea id="noteArea" class="noteTextArea" rows="15" cols="61"
+            style="display: none" placeholder="You can resize me by dragging in
+            the bottom right"></textarea>       
     </article>
 
     <div id="rP1" class="runePanel">
