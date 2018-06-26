@@ -1,0 +1,123 @@
+
+{   "note":"     The Galliard, beloved of the nigh-full moon, is joy incarnate in his songs, stories and poetry. The beauty of Luna's gibbous face inspires him to great deeds on the battlefield as well as around the moot fires. He keeps the traditions of the werewolves perpetually alive through lore carried from generation to generation. A Galliard can rouse the pack from self-pity and suffering when their claws are needed for battle; he can cause even the stodgiest Philodox to weep her heart's last tears just as easily, should the occasion call for it. The entertainment of the Galliard takes many forms. He might be a dancer, a storyteller, a musician or a bit of everything rolled into one. When peace turns to war, the Moon Dancer may well lead the pack. And when tranquility comes again, he'll sing laments for the fallen and epic sagas for the brave survivors who still walk Gaia's sacred places.\n     A Galliard's role is a tricky one. He must be the lorekeeper of his pack, well-versed in Garou history and able to teach others to learn from past mistakes. He is also the one who recounts his packmates' deeds of bravery, wisdom and honor at moots, ensuring that they are properly honored for their efforts.\n     In many cases, the Galliard is also the one who negotiates with mortals and others, just as the Theurge bargains with spirits and the Philodox reasons with other Garou. The talented Galliard has a fine memory, a glib tongue and a brave spirit; his job isn't easy by any measure, and he needs all the talent he can muster.\n\n     Stereotype: Galliards are all the passion of the werewolves rolled up into one feisty and creative package. They're completely unrestrained in their various moods, and they're damn hot-tempered to boot. Moon Dancers born under Luna's waning face have dark, consuming passions they relate tales of doom, war and sacrifice. The waxing moon Galliards, by contrast, are almost giddy in their revels, full of songs of wonder, conquest and joy. In the pack, the Moon Dancer keeps everyone's spirits up, even in times of terrible hardship. Without the Galliard's song, many are the werewolves who'd have given up, even in sight of victory.\n\n     Quote: Surely I've regaled you with the story of Gwnnar Draugrbane, the fiercest warrior ever to sail the sea. No? Then share my mead and stoke the fire! The night is young, and I feel a great inspiration coming to me from Fenris himself.", 
+  
+    "top":{ 
+        "name":"Dot Net Dotnet",
+        "player":"Orsaion",
+        "chronicle":"Revenge of the Sith",
+        "breed":"Homid",
+        "auspice":"Galliard",
+        "tribe":"Glass Walker", 
+        "pack":"Convergence",
+        "totem":"Rat",
+        "concept":"Data Entry, International Sales Inc"
+    },
+  
+    "attributes":{
+        "str":1,
+        "dex":3,
+        "stam":2,
+        "cha":4,
+        "mani":3,
+        "appearance":3,
+        "perception":3,
+        "int":2,
+        "wits":3
+    },
+
+    "talents":{ 
+        "alert":1,
+        "athletics":0,
+        "brawl":0,
+        "dodge":1,
+        "empathy":1,
+        "expression":2,
+        "intimidation":0,
+        "primal":0,
+        "streetwise":0,
+        "subterfuge":0
+    },
+
+    "skills":{
+        "animal":0,
+        "crafts":2,
+        "drive":0,
+        "etiquette":3,
+        "firearms":2,
+        "leadership":1,
+        "melee":1,
+        "performance":3,
+        "stealth":0,
+        "survival":1
+    },
+
+    "knowledges":{
+        "computer":3,
+        "enigmas":1,
+        "investigation":2,
+        "law":0,
+        "linguistics":1,
+        "medicine":0,
+        "occult":0,
+        "politics":0,
+        "rituals":2,
+        "science":0
+    },
+
+    "backgrounds":{
+        "back1":"Fetish", 
+        "back1d":0,
+        "back2":"Rites", 
+        "back2d":3,
+        "back3":"Resources", 
+        "back3d":2,
+        "back4":"", 
+        "back4d":0,
+        "back5":"", 
+        "back5d":0,
+        "back6":"", 
+        "back6d":0,
+        "back7":"", 
+        "back7d":0,
+        "back8":"", 
+        "back8d":0,
+        "back9":"", 
+        "back9d":0
+    },
+
+
+    "gifts":"Master of Fire, Mindspeak, Persuasion, Smell of Man, Diagnostics, Beast Speech, Call of the Wyld, Trick Shot, Control Simple Machines",
+
+    "renown":{
+        "glory":2,
+        "glorytemp":0,
+        "honor":0,
+        "honortemp":0,
+        "wisdom":1,
+        "wistemp":0
+    },
+
+    "rank":"boi",
+
+    "rage":4,
+    "ragetemp":0,
+
+    "gnosis":1,
+    "gnosistemp":0,
+
+    "willpower":3,
+    "willpowertemp":0,
+
+    "health":{
+        "brused":0,
+        "hurt":0,
+        "injured":0,
+        "wounded":0,
+        "mauled":0,
+        "crippled":0,
+        "incap":0
+    },
+
+  "exp":0
+
+}
