@@ -2,130 +2,56 @@
 <html lang='en'>
 <head>   
    <meta charset='UTF-8' />
-   <meta name="viewport" context="width=device-width, initial-scale=1.0" />
+   <meta name='viewport' context='width=device-width, initial-scale=1.0' />
    <title>A Were-Wolf Guide</title>   
-   <meta name="discription" content="WoD, WhiteWolf, Werewolf" />
-   <meta name="version" content="v1.2" />
-   <meta name="author" content="Orsaion" />
+   <meta name='discription' content='WoD, WhiteWolf, Werewolf' />
+   <meta name='version' content='v1.4' />
+   <meta name='author' content='Orsaion' />
 
    <!-- Eventually this block will be moved to seperate file(s) to speed up 
     page load. Some functions are already in another js file. -->
    <script>
-       //"use strict";
+       //'use strict';
 
-       /** Function runes() is going to be a random dice roll gen. It's going to
-       * be modified a little to make it operate within the rules of the WOD
-       * system. Users will put numbers in text fields for dice and scale, those
-       * will be validated, then put through the success/failure system. Which 
-       * is determined by the number of dice above the difficulty given. (If 3
-       * dice are rolled - 4,5,6 - with difficulty of 6, there is one success.)
-       * Also checks for a 'botch' or a really bad roll where there are no 
-       * successes and more than one "1" showing up.
-       */
-       function rpOpen() { rP1.style.display= "block"; }
-       function runes() {
-            var d = document.getElementById("dice").value;
-            var s = document.getElementById("dScale").value;
-            var ran = []; 
-            var n = 1; var x = 0;
-            var pass = 0; var fail = 0; 
-            var output; var rsof;
-            
-            if (d == null || d == "" || d > 25 ) {
-               output = "How many dice again?";
-               ran.length = 0; // clear array to trigger the error below
-            } else if (s == null || s == "" || s >= 11 || s <= 2 ) {
-               output = "How hard of a check?"
-               ran.length = 0;
-            } else {
-               output = "Rolled " + d + "d10 on " + s + "+";
+    /** Function intro() will clear out the text area and display the opening
+    * story that's first loaded when you reach the page.
+    */
+    function intro() {
+        var x = new XMLHttpRequest();
+            x.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var r = JSON.parse(x.responseText); 
+                    document.getElementById('textBody').innerHTML= r.open;
+                }
+            };
+        x.open('GET', 'test.json', true);
+        x.send();
+    }
 
-               // this builds the ran[] with "random dice rolls" 
-               while ( n <= d ) {
-                    ran.push( Math.floor( Math.random() * 10 + 1 ) )
-                    n++;
-                } 
-            }            
-            // check to see if any number in the array passes or fails
-            while ( x <= ( d - 1) ) {
-                //x++;
-                if ( ran[x] > s  || ran[x] == s ) {
-                    pass++; 
-                    fail--;
-                } else if ( ran[x] == 1 ) {
-                    pass--; 
-                    fail++;
-                } 
-                x++;
-            } 
-            // tally success rate or failure and return result
-            if ( pass == 1 ) {
-               rsof = '<p id="rResult" class="runeText" style="color: green">' + 
-                   pass + " success! With a roll of " + ran + "</p>";
-           } else if ( pass >= 2 ) {
-               rsof = '<p id="rResult" class="runeText" style="color: green">' + 
-                   pass + " successes! With a roll of " + ran + "</p>";
-           } else if ( ran.length == 0 ) { // disables text for bad input
-               rsof = '<p id="rResult" class="runeText"></p>';
-           } else if ( ran.length != 0 && pass == 0 && fail == 0 ) {
-               rsof = '<p id="rResult" class="runeText">Fail, with a roll of ' +
-                    ran + '</p>';
-           } else if ( pass <= 0 && fail >= 1 ) {
-               rsof = '<p id="rResult" class="runeText" style="color: red">' +
-                   'Botch! With a roll of ' + ran + '</p>';
-           } else {
-               rsof = '<p id="rResult" class="runeText">Fail, with a roll of ' +
-                    ran + '</p>';
-           }
-
-           document.getElementById("iEcho").innerText= output + "...";
-           document.getElementById("rResult").innerHTML= rsof;
-           ran.length = 0;
-            
-       }
-       function rpClose() { rP1.style.display= "none"; } 
-
-       /** Function intro() will clear out the text area and display the opening
-       * story that's first loaded when you reach the page.
-       */
-       function intro(num) {
-            var x = new XMLHttpRequest();
-                x.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var r = JSON.parse(x.responseText); 
-                        document.getElementById('textBody').innerHTML= r.open;
-                    }
-                };
-                x.open('GET', 'open.json', true);
-                x.send();
-            if (num == 1) {                
-                textBody.style.display= "block";
-                noteBtns.style.display= "none";
-                noteArea.style.display= "none";
-            } 
-       }
        /** Function notes() will hide the main article area and display the div
        * containing the buttons and textarea for the Notes section.
        */
        function switchNotes() {
-           textBody.style.display= "none";
-           noteBtns.style.display= "block";
-           noteArea.style.display= "block";
-       }
-       /** This function I may just remake to a different HTML page. Either way
-       * it's going to be a character sheet that includes the dice roller from
-       * above tacked on the side so it's always availble. 
-       */
-       function charSheet() {
+           chapterMenu.style.display= 'block';
+           mainTextArea.style.display= 'block';     
+           textBody.style.display= 'none';
+           noteBtns.style.display= 'block';
+           noteArea.style.display= 'block';
+           rP2.style.display= 'none';
+           sheet.style.display= 'none';
        }
        /** Function switchChap will hide the div containing the buttons and
        * text area for the note Section. Then reenable the main article div so 
        * the user can continue to scan the chapters/sections again.
        */
        function switchChap() {
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+           chapterMenu.style.display= 'block';
+           mainTextArea.style.display= 'block';     
+           textBody.style.display= 'block';
+           noteBtns.style.display= 'none';
+           noteArea.style.display= 'none';
+           rP2.style.display= 'none';
+           sheet.style.display= 'none';
        }
 
        /** All of the following functions are going to be used to access 
@@ -139,89 +65,60 @@
        function changeText() { 
            // until I have the SQL DB up and running, I've put in test code to 
            // make sure everything works. This will be changed later on.        
-           document.getElementById("textBody").innerHTML="<p>Half human. Half" +
-           " beast. Predators that stalk the deepest woods and the darkest " +
-           "urban alleyways. Monsters that creep up on their prey like ghosts, "
-           + "open explode into a fury of claws and fangs. Beasts that howl " +
-           "under the full moon and kill those that cross the boundaries of " +
-           "their territory...</p>" + "<p><b><i>Werewolves.</i></b></p>";
+           document.getElementById('textBody').innerHTML='<p>Half human. Half' +
+           ' beast. Predators that stalk the deepest woods and the darkest ' +
+           'urban alleyways. Monsters that creep up on their prey like ghosts, '
+           + 'open explode into a fury of claws and fangs. Beasts that howl ' +
+           'under the full moon and kill those that cross the boundaries of ' +
+           'their territory...</p><p><b><i>Werewolves.</i></b></p>';
            
            // adding ability to change back to chapters by clicking on btns
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+           switchChap();
        }
        function changeBack() { 
-           document.getElementById("textBody").innerHTML="<p>And now, for " +
-           "something completely different...</p>";
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+           document.getElementById('textBody').innerHTML='<p>And now, for ' +
+           'something completely different...</p>';
+           switchChap();
        } 
        function change3() {
-            document.getElementById("textBody").innerHTML="<p><em>Add some " +
-            "stuff from Ch3...</em></p>";
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+            document.getElementById('textBody').innerHTML='<p><em>Add some ' +
+            'stuff from Ch3...</em></p>';
+            switchChap();
        }
        function change4() {
-            document.getElementById("textBody").innerHTML='<img src="wolf.png"' 
+            document.getElementById('textBody').innerHTML='<img src="wolf.png"' 
             + 'width="500" height="500" alt="wolf picture"></img>';
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+            switchChap();
        }
        function change5() {
-            document.getElementById("textBody").innerHTML="Add some stuff from" 
-            + " Ch5...";
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+            document.getElementById('textBody').innerHTML='Add some stuff from' 
+            + ' Ch5...';
+            switchChap();
        }
        function change6() {
-            document.getElementById("textBody").innerHTML="Add some stuff from"
-            + " Ch6...";
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+            document.getElementById('textBody').innerHTML='Add some stuff from'
+            + ' Ch6...';
+            switchChap();
        }
        function change7() {
-            document.getElementById("textBody").innerHTML="Add some stuff from"
-            + " Ch7...";
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+            document.getElementById('textBody').innerHTML='Add some stuff from'
+            + ' Ch7...';
+            switchChap();
        }
        function change8() {
-            document.getElementById("textBody").innerHTML="Add some stuff from" 
-            + " Ch8...";
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+            document.getElementById('textBody').innerHTML='Add some stuff from' 
+            + ' Ch8...';
+            switchChap();
        }
        function change9() {
-            document.getElementById("textBody").innerHTML="Add some stuff from" 
-            + " Ch9...";
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+            document.getElementById('textBody').innerHTML='Add some stuff from' 
+            + ' Ch9...';
+            switchChap();
        }
        function soupDrinker() {
-            document.getElementById("textBody").innerHTML="<p><em>What are you" 
-            + " doing?</em></p> <p>It is not time to drink soup!</p>";
-
-           textBody.style.display= "block";
-           noteBtns.style.display= "none";
-           noteArea.style.display= "none";
+            document.getElementById('textBody').innerHTML='<p><em>What are you' 
+            + ' doing?</em></p><p>It is not time to drink soup!</p>';
+            switchChap();
        } 
        /* end of text change functions for the moment */
 
@@ -256,19 +153,18 @@
 
                 // still learning how to save locally
 
-            } else { alert("No text detected..."); }
+            } else { alert( 'No text detected...' ); }
        }
        /** Function clearNote() removes all text from noteArea */
        function clearNote() {           
-           if ( confirm("Are you sure you want to remove all notes?") ) {
-               document.getElementById('noteArea').innerText = "";
-               
+           if ( confirm( 'Are you sure you want to remove all notes? ') ) {
+               document.getElementById('noteArea').innerText = "";               
            }
        }
    
    </script>
 
-    <link rel="stylesheet" href="wodCss.css" /> 
+    <link rel='stylesheet' href='wodCss.css' /> 
     <!-- external CSS for printing and normal layout added. I'll leave style
         tag here though to qickly change things as I go before adding it to main
         css file. -->
@@ -282,184 +178,675 @@
 
     <section>
     <div>
-        <top> 
-            <button type="button" onclick="intro(1)">Opening Text</button>
-            <button type="button">Characters</button> <!-- might change this to a link -->
-            <button type="button" onclick="rpOpen()">Chance Runes</button>            
-            <button type="button" onclick="switchNotes()">Take a Note</button>
-            <button type="button" onclick="switchChap()">Read a Page</button>
+        <top>
+            <button type='button' onclick='switchChap()'>Read a Page</button>
+            <button type='button' onclick='charShow()'>Characters</button>
+            <button type='button' onclick='switchNotes()'>Take a Note</button>
+            <button type='button' id='runesBtn' onclick='rpOpen()'>Chance Runes
+                </button>
+            <button type='button' onclick='introBtn()'>Opening Text</button>
         </top>
     </div>
     </section>
 
     <nav>
-        <chapter> 
+        <chapter id='chapterMenu'> 
             <!-- there was an error with the first one not rendering correctly
             so I just made it a fake header for the setion -->
-            <button class="accordionTitle">Chapters</button>
-
+            <button class='accordionTitle'>Chapters</button>
             <!-- Eventually these will reflect the correct blurbs of text too
             but for now these buttons are just here to make sure everything is
             working correctly. -->
-            <button class="accordion">A World of Darkness</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Section 1</button>
-                <button class="button" onclick="changeBack()">Section 2</button>
-                <button class="button" onclick="change3()">Section 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>                    
+            <button class='accordion'>A World of Darkness</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button>                    
             </div>
 
-            <button class="accordion">The Garou</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>The Garou</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button> 
             </div>
 
-            <button class="accordion">Characters and Traits</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>Characters and Traits</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button>  
             </div>
 
-            <button class="accordion">Gifts and Rites</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>Gifts and Rites</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button>  
             </div>
 
-            <button class="accordion">Rules</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>Rules</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button>   
             </div>
 
-            <button class="accordion">Systems and Drama</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>Systems and Drama</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button> 
             </div>
 
-            <button class="accordion">The Umbra</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>The Umbra</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button>  
             </div>
 
-            <button class="accordion">Storytelling</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>Storytelling</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button>  
             </div>
 
-            <button class="accordion">Antagonists</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>Antagonists</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button>  
             </div>
 
-            <button class="accordion">Allies and Ammunition</button>
-            <div class="panel">
-                <button class="button" onclick="changeText()">Chapter 1</button>
-                <button class="button" onclick="changeBack()">Chapter 2</button>
-                <button class="button" onclick="change3()">Chapter 3</button>
-                <button class="button" onclick="change4()">Das Wolfy</button>
-                <button class="button" onclick="soupDrinker()">Soup!</button>  
+            <button class='accordion'>Allies and Ammunition</button>
+            <div class='panel'>
+                <button class='button' onclick='changeText()'>Section 1</button>
+                <button class='button' onclick='changeBack()'>Section 2</button>
+                <button class='button' onclick='change3()'>Section 3</button>
+                <button class='button' onclick='change4()'>Das Wolfy</button>
+                <button class='button' onclick='soupDrinker()'>Soup!</button>  
             </div>
 
             <script>
                 /** This simply gathers all the different chapters and allows 
                 * the animation of the accordian buttons to work.
                 */
-                "use strict";
-                var acc = document.getElementsByClassName("accordion");
+                'use strict';
+                var acc = document.getElementsByClassName('accordion');
                 var i;
 
                 // populate and create action for clicking on accordion buttons
                 for (i = 0; i < acc.length; i++) {
-                    acc[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
+                    acc[i].addEventListener('click', function() {
+                    this.classList.toggle('active');
                     
                     // build hidden/shown subsections
                     var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                      panel.style.display = "none";
+                    if (panel.style.display === 'block') {
+                        panel.style.display = 'none';
                     } else {
-                      panel.style.display = "block";
+                        panel.style.display = 'block';
                     } 
                     });
                 }
             </script>
-
-         </chapter>
+        </chapter>
+        <chapter id='rP2' class='charRune'>
+            <button type='button' class='accordionTitle'>Open Your Character
+                </button><br /><br />
+            <button type='button' class='accordionTitle'>Save Your Character
+                </button><br /><br />
+            <button type='button' class='accordionTitle' onclick=
+                'printCharBlank()'>Print Blank Sheet</button><br /><br />
+            <button type='button' class='accordionTitle' onclick=
+                'printChar()'>Print Your Character</button><br /><br /><hr />
+            <h3>What does chance dictate?</h3>            
+            <br />What is your dice pool?<br />
+            <input type='number' id='dice2' min='1' max='3'>
+            <br />What is your difficulty?<br />
+            <input type='number' id='dScale2' min='1' max='3'>
+            <br /><br />
+            <input type='button' class='runeButton' onclick='charRunes()' 
+                value='Let Fate Decide'>
+            <br /><br />
+            <p id='iEcho2' class='runeText'></p>
+            <p id='rResult2' class='runeText'></p>
+        </chapter>
     </nav>
 
-    <article>
-        <div id="textBody" class="textBody"> 
-            <script>intro(2);</script>            
+    <article id='mainTextArea'>
+        <div id='textBody' class='textBody'> 
+            <script>intro();</script>      
         </div>
-        <div id="noteBtns" style="display: none">
-            <button type"button" id="open" class="buttonNote" style="width: 24%" 
-            onclick="getNote('test.json', null)">Open previous note</button> 
-            <button type"button" id="save" class="buttonNote" style="width: 24%"
-            onclick="saveNote()">Save a note for later</button>
-            <button type"button" id="print" class="buttonNote" style="width: 
-            24%" onclick="printNote()">Print your note</button>
-            <button type"button" id="clear" class="buttonNote" style="width:
-            24%" onclick="clearNote()">Clear All Notes</button>
+        <div id='noteBtns' style='display: none'>
+            <button type'button' id='open' class='buttonNote' style='width: 24%' 
+            onclick='getNote("test.json", null)'>Open a Note</button> 
+            <button type'button' id='save' class='buttonNote' style='width: 24%'
+            onclick='saveNote()'>Save a Note</button>
+            <button type'button' id='print' class='buttonNote' style='width: 
+            24%' onclick='printNote()'>Print a Note</button>
+            <button type'button' id='clear' class='buttonNote' style='width:
+            24%' onclick='clearNote()'>Clear All </button>
         </div>
             <!-- There's an annoying thing I noticed when using the text box, 
             every time that I push the tab button it seems to change what is 
             focused as opposed actually indenting like in a normal text editor. 
             I'll have to look into that later on. -->
-        <br /><textarea id="noteArea" class="noteTextArea" rows="15" cols="61"
-            style="display: none" placeholder="You can resize this by clicking 
-            then dragging in the bottom right"></textarea>       
+        <br /><textarea id='noteArea' class='noteTextArea' rows='15' cols='61'
+            style='display: none' placeholder='You can resize this by clicking 
+            then dragging in the bottom right'></textarea>       
     </article>
 
-    <div id="rP1" class="runePanel">
+    <div id='rP1' class='runePanel'>
             <h3>What does fate dictate?</h3>
             
             <br />What is your dice pool?<br />
-            <input type="number" id="dice" min="1" max="3">
-            <br /><br />What is your difficulty?<br />
-            <input type="number" id="dScale" min="1" max="3">
+            <input type='number' id='dice' min='1' max='3'>
+            <br />What is your difficulty?<br />
+            <input type='number' id='dScale' min='1' max='3'>
             <br /><br />
-            <input type="button" class="runeButton" onclick="runes()" 
-                value="Let Fate Decide">
+            <input type='button' class='runeButton' onclick='runes()' 
+                value='Let Fate Decide'>
             <br /><br />
-            <p id="iEcho" class="runeText"></p>
-            <p id="rResult" class="runeText"></p>
+            <p id='iEcho' class='runeText'></p>
+            <p id='rResult' class='runeText'></p>
             <br /><br/>
-            <button type"button" class="runeButton" onclick="rpClose()">Put the 
+            <button type'button' class='runeButton' onclick='rpClose()'>Put the 
                 Runes away</button>
     </div>
+    <article id='sheet' class='char'>
+        <div class='header'>
+            <img src='logo.png' width='250' height='96' alt='WoD:W logo'></img>
+        </div>
+        <div id='NPC' class='topArea'>
+            Name:<input type='text' id='cName' min='1' max='15'><br />
+            Player:<input type='text' id='cPlayer' min='1' max='15'><br />
+            Chronicle:<input type='text' id='cChronicle' min='1' max='15'>
+        </div>
+        <div id='BAT' class='topArea'>
+            Breed:<input type='text' id='cBreed' min='1' max='15'><br />
+            Auspice:<input type='text' id='cAuspice' min='1' max='15'><br />
+            Tribe:<input type='text' id='cTribe' min='1' max='15'>
+        </div>
+        <div id='PPC' class='topArea'>
+            Pack-Name:<input type='text' id='cPackName' min='1' max='15'><br />
+            Pack-Totem:<input type='text' id='cPackTotem' min='1' max='15'><br/>
+            Concept:<input type='text' id='cConcept' min='1' max='15'>
+        </div>
+        <div class='seperator'>
+            <img src='attributes.png' width='500' height='75' alt='seperator'>
+            </img>
+        </div>
+        <div class='attributes'>
+            <p>Physical</p>
+            Strength:<br />
+            <input type='radio' id='str1'>
+            <input type='radio' id='str2'>
+            <input type='radio' id='str3'>
+            <input type='radio' id='str4'>
+            <input type='radio' id='str5'><br />
+            Dexterity:<br />
+            <input type='radio' id='dex1'>
+            <input type='radio' id='dex2'>
+            <input type='radio' id='dex3'>
+            <input type='radio' id='dex4'>
+            <input type='radio' id='dex5'><br />
+            Stamina:<br />
+            <input type='radio' id='stam1'>
+            <input type='radio' id='stam2'>
+            <input type='radio' id='stam3'>
+            <input type='radio' id='stam4'>
+            <input type='radio' id='stam5'>
+        </div>
+        <div class='attributes'>
+            <p>Social</p>
+            Charisma:<br />
+            <input type='radio' id='cha1'>
+            <input type='radio' id='cha2'>
+            <input type='radio' id='cha3'>
+            <input type='radio' id='cha4'>
+            <input type='radio' id='cha5'><br />
+            Manipulation:<br />
+            <input type='radio' id='mani1'>
+            <input type='radio' id='mani2'>
+            <input type='radio' id='mani3'>
+            <input type='radio' id='mani4'>
+            <input type='radio' id='mani5'><br />
+            Appearance:<br />
+            <input type='radio' id='app1'>
+            <input type='radio' id='app2'>
+            <input type='radio' id='app3'>
+            <input type='radio' id='app4'>
+            <input type='radio' id='app5'>            
+        </div>
+        <div class='attributes'>
+            <p>Mental</p>
+            Perception:<br />
+            <input type='radio' id='percep1'>
+            <input type='radio' id='percep2'>
+            <input type='radio' id='percep3'>
+            <input type='radio' id='percep4'>
+            <input type='radio' id='percep5'><br />
+            Intelligence:<br />
+            <input type='radio' id='int1'>
+            <input type='radio' id='int2'>
+            <input type='radio' id='int3'>
+            <input type='radio' id='int4'>
+            <input type='radio' id='int5'><br />
+            Wits:<br />
+            <input type='radio' id='wit1'>
+            <input type='radio' id='wit2'>
+            <input type='radio' id='wit3'>
+            <input type='radio' id='wit4'>
+            <input type='radio' id='wit5'>            
+        </div>
+        <div class='seperator'>
+            <img src='abilities.png' width='500' height='75' alt='seperator'>
+            </img>
+        </div>
+        <div class='abilities'>
+            <p>Talents</p>
+            Alertness:<br />
+            <input type='radio' id='alert1'>
+            <input type='radio' id='alert2'>
+            <input type='radio' id='alert3'>
+            <input type='radio' id='alert4'>
+            <input type='radio' id='alert5'><br />
+            Athletics:<br />
+            <input type='radio' id='ath1'>
+            <input type='radio' id='ath2'>
+            <input type='radio' id='ath3'>
+            <input type='radio' id='ath4'>
+            <input type='radio' id='ath5'><br />
+            Brawl:<br />
+            <input type='radio' id='brawl1'>
+            <input type='radio' id='brawl2'>
+            <input type='radio' id='brawl3'>
+            <input type='radio' id='brawl4'>
+            <input type='radio' id='brawl5'><br />
+            Dodge:<br />
+            <input type='radio' id='dodge1'>
+            <input type='radio' id='dodge2'>
+            <input type='radio' id='dodge3'>
+            <input type='radio' id='dodge4'>
+            <input type='radio' id='dodge5'><br />
+            Empathy:<br />
+            <input type='radio' id='emp1'>
+            <input type='radio' id='emp2'>
+            <input type='radio' id='emp3'>
+            <input type='radio' id='emp4'>
+            <input type='radio' id='emp5'><br />
+            Expression:<br />
+            <input type='radio' id='expre1'>
+            <input type='radio' id='expre2'>
+            <input type='radio' id='expre3'>
+            <input type='radio' id='expre4'>
+            <input type='radio' id='expre5'><br />
+            Intimidation:<br />
+            <input type='radio' id='intim1'>
+            <input type='radio' id='intim2'>
+            <input type='radio' id='intim3'>
+            <input type='radio' id='intim4'>
+            <input type='radio' id='intim5'><br />
+            Primal-Urge:<br />
+            <input type='radio' id='pu1'>
+            <input type='radio' id='pu2'>
+            <input type='radio' id='pu3'>
+            <input type='radio' id='pu4'>
+            <input type='radio' id='pu5'><br />
+            Streetwise:<br />
+            <input type='radio' id='wise1'>
+            <input type='radio' id='wise2'>
+            <input type='radio' id='wise3'>
+            <input type='radio' id='wise4'>
+            <input type='radio' id='wise5'><br />
+            Subterfuge:<br />
+            <input type='radio' id='sub1'>
+            <input type='radio' id='sub2'>
+            <input type='radio' id='sub3'>
+            <input type='radio' id='sub4'>
+            <input type='radio' id='sub5'>
+        </div>
+        <div class='abilities'>
+            <p>Skills</p>
+            Animal-Ken:<br />
+            <input type='radio' id='ken1'>
+            <input type='radio' id='ken2'>
+            <input type='radio' id='ken3'>
+            <input type='radio' id='ken4'>
+            <input type='radio' id='ken5'><br />
+            Crafts:<br />
+            <input type='radio' id='craft1'>
+            <input type='radio' id='craft2'>
+            <input type='radio' id='craft3'>
+            <input type='radio' id='craft4'>
+            <input type='radio' id='craft5'><br />
+            Drive:<br />
+            <input type='radio' id='drive1'>
+            <input type='radio' id='drive2'>
+            <input type='radio' id='drive3'>
+            <input type='radio' id='drive4'>
+            <input type='radio' id='drive5'><br />
+            Etiquette:<br />
+            <input type='radio' id='eti1'>
+            <input type='radio' id='eti2'>
+            <input type='radio' id='eti3'>
+            <input type='radio' id='eti4'>
+            <input type='radio' id='eti5'><br />
+            Firearms:<br />
+            <input type='radio' id='gun1'>
+            <input type='radio' id='gun2'>
+            <input type='radio' id='gun3'>
+            <input type='radio' id='gun4'>
+            <input type='radio' id='gun5'><br />
+            Leadership:<br />
+            <input type='radio' id='lead1'>
+            <input type='radio' id='lead2'>
+            <input type='radio' id='lead3'>
+            <input type='radio' id='lead4'>
+            <input type='radio' id='lead5'><br />
+            Melee:<br />
+            <input type='radio' id='melee1'>
+            <input type='radio' id='melee2'>
+            <input type='radio' id='melee3'>
+            <input type='radio' id='melee4'>
+            <input type='radio' id='melee5'><br />
+            Performance:<br />
+            <input type='radio' id='perf1'>
+            <input type='radio' id='perf2'>
+            <input type='radio' id='perf3'>
+            <input type='radio' id='perf4'>
+            <input type='radio' id='perf5'><br />
+            Stealth:<br />
+            <input type='radio' id='hide1'>
+            <input type='radio' id='hide2'>
+            <input type='radio' id='hide3'>
+            <input type='radio' id='hide4'>
+            <input type='radio' id='hide5'><br />
+            Survival:<br />
+            <input type='radio' id='suv1'>
+            <input type='radio' id='suv2'>
+            <input type='radio' id='suv3'>
+            <input type='radio' id='suv4'>
+            <input type='radio' id='suv5'>
+        </div>
+        <div class='abilities'>
+            <p>Knowledges</p>
+            Computer:<br /> <!-- about a 4 ^m^ -->
+            <input type='radio' id='com1'>
+            <input type='radio' id='com2'>
+            <input type='radio' id='com3'>
+            <input type='radio' id='com4'>
+            <input type='radio' id='com5'><br />
+            Enigmas:<br />
+            <input type='radio' id='e1'>
+            <input type='radio' id='e2'>
+            <input type='radio' id='e3'>
+            <input type='radio' id='e4'>
+            <input type='radio' id='e5'><br />
+            Investigation:<br />
+            <input type='radio' id='inv1'>
+            <input type='radio' id='inv2'>
+            <input type='radio' id='inv3'>
+            <input type='radio' id='inv4'>
+            <input type='radio' id='inv5'><br />
+            Law:<br />
+            <input type='radio' id='law1'>
+            <input type='radio' id='law2'>
+            <input type='radio' id='law3'>
+            <input type='radio' id='law4'>
+            <input type='radio' id='law5'><br />
+            Lingustics:<br />
+            <input type='radio' id='ling1'>
+            <input type='radio' id='ling2'>
+            <input type='radio' id='ling3'>
+            <input type='radio' id='ling4'>
+            <input type='radio' id='ling5'><br />
+            Medicine:<br />
+            <input type='radio' id='med1'>
+            <input type='radio' id='med2'>
+            <input type='radio' id='med3'>
+            <input type='radio' id='med4'>
+            <input type='radio' id='med5'><br />
+            Occult:<br />
+            <input type='radio' id='cult1'>
+            <input type='radio' id='cult2'>
+            <input type='radio' id='cult3'>
+            <input type='radio' id='cult4'>
+            <input type='radio' id='cult5'><br />
+            Politics:<br />
+            <input type='radio' id='pol1'>
+            <input type='radio' id='pol2'>
+            <input type='radio' id='pol3'>
+            <input type='radio' id='pol4'>
+            <input type='radio' id='pol5'><br />
+            Rituals:<br />
+            <input type='radio' id='rit1'>
+            <input type='radio' id='rit2'>
+            <input type='radio' id='rit3'>
+            <input type='radio' id='rit4'>
+            <input type='radio' id='rit5'><br />
+            Science:<br />
+            <input type='radio' id='sci1'>
+            <input type='radio' id='sci2'>
+            <input type='radio' id='sci3'>
+            <input type='radio' id='sci4'>
+            <input type='radio' id='sci5'>
+        </div>
+        <div class='seperator'>
+            <img src='advantages.png' width='500' height='75' alt='seperator'>
+            </img>
+        </div>
+        <div class='advantages1'>
+            <p>Backgrounds</p>
+            <input type='text' id='bg1' min='1' max='15'>
+            <input type='radio' id='bg1dot1'>
+            <input type='radio' id='bg1dot2'>
+            <input type='radio' id='bg1dot3'>
+            <input type='radio' id='bg1dot4'>
+            <input type='radio' id='bg1dot5'><br />
+            <input type='text' id='bg2' min='1' max='15'>
+            <input type='radio' id='bg2dot1'>
+            <input type='radio' id='bg2dot2'>
+            <input type='radio' id='bg2dot3'>
+            <input type='radio' id='bg2dot4'>
+            <input type='radio' id='bg2dot5'><br />
+            <input type='text' id='bg3' min='1' max='15'>
+            <input type='radio' id='bg3dot1'>
+            <input type='radio' id='bg3dot2'>
+            <input type='radio' id='bg3dot3'>
+            <input type='radio' id='bg3dot4'>
+            <input type='radio' id='bg3dot5'><br />
+            <input type='text' id='bg4' min='1' max='15'>
+            <input type='radio' id='bg4dot1'>
+            <input type='radio' id='bg4dot2'>
+            <input type='radio' id='bg4dot3'>
+            <input type='radio' id='bg4dot4'>
+            <input type='radio' id='bg4dot5'><br />
+            <input type='text' id='bg5' min='1' max='15'>
+            <input type='radio' id='bg5dot1'>
+            <input type='radio' id='bg5dot2'>
+            <input type='radio' id='bg5dot3'>
+            <input type='radio' id='bg5dot4'>
+            <input type='radio' id='bg5dot5'><br />
+        </div>
+        <div class='advantages2'>
+            <p>Gifts</p>
+            <textarea id='gifts' class='noteTextArea' rows='10' cols='30'>
+            </textarea>
+        </div>
+        <div class='seperator'>
+            <img src='sep.png' width='500' height='75' alt='seperator'></img>
+        </div>
+        <div class='lowerArea'>
+            Glory<br />
+            <input type='radio' id='glory1'>
+            <input type='radio' id='glory2'>
+            <input type='radio' id='glory3'>
+            <input type='radio' id='glory4'>
+            <input type='radio' id='glory5'><br />
+            <input type='radio' id='glory6'>
+            <input type='radio' id='glory7'>
+            <input type='radio' id='glory8'>
+            <input type='radio' id='glory9'>
+            <input type='radio' id='glory0'><br />
+            <input type='checkbox' id='tglory1'>
+            <input type='checkbox' id='tglory2'>
+            <input type='checkbox' id='tglory3'>
+            <input type='checkbox' id='tglory4'>
+            <input type='checkbox' id='tglory5'><br />
+            <input type='checkbox' id='tglory6'>
+            <input type='checkbox' id='tglory7'>
+            <input type='checkbox' id='tglory8'>
+            <input type='checkbox' id='tglory9'>
+            <input type='checkbox' id='tglory0'><hr />
+            Honor<br />
+            <input type='radio' id='honor1'>
+            <input type='radio' id='honor2'>
+            <input type='radio' id='honor3'>
+            <input type='radio' id='honor4'>
+            <input type='radio' id='honor5'><br />
+            <input type='radio' id='honor6'>
+            <input type='radio' id='honor7'>
+            <input type='radio' id='honor8'>
+            <input type='radio' id='honor9'>
+            <input type='radio' id='honor0'><br />
+            <input type='checkbox' id='thonor1'>
+            <input type='checkbox' id='thonor2'>
+            <input type='checkbox' id='thonor3'>
+            <input type='checkbox' id='thonor4'>
+            <input type='checkbox' id='thonor5'><br />
+            <input type='checkbox' id='thonor6'>
+            <input type='checkbox' id='thonor7'>
+            <input type='checkbox' id='thonor8'>
+            <input type='checkbox' id='thonor9'>
+            <input type='checkbox' id='thonor0'><hr />
+            Wisdom<br />
+            <input type='radio' id='wis1'>
+            <input type='radio' id='wis2'>
+            <input type='radio' id='wis3'>
+            <input type='radio' id='wis4'>
+            <input type='radio' id='wis5'><br />
+            <input type='radio' id='wis6'>
+            <input type='radio' id='wis7'>
+            <input type='radio' id='wis8'>
+            <input type='radio' id='wis9'>
+            <input type='radio' id='wis0'><br />
+            <input type='checkbox' id='twis1'>
+            <input type='checkbox' id='twis2'>
+            <input type='checkbox' id='twis3'>
+            <input type='checkbox' id='twis4'>
+            <input type='checkbox' id='twis5'><br />
+            <input type='checkbox' id='twis6'>
+            <input type='checkbox' id='twis7'>
+            <input type='checkbox' id='twis8'>
+            <input type='checkbox' id='twis9'>
+            <input type='checkbox' id='twis0'>
+        </div>
+        <div class='lowerArea'>
+            Rage<br />
+            <input type='radio' id='rage1'>
+            <input type='radio' id='rage2'>
+            <input type='radio' id='rage3'>
+            <input type='radio' id='rage4'>
+            <input type='radio' id='rage5'><br />
+            <input type='radio' id='rage6'>
+            <input type='radio' id='rage7'>
+            <input type='radio' id='rage8'>
+            <input type='radio' id='rage9'>
+            <input type='radio' id='rage0'><br />
+            <input type='checkbox' id='trage1'>
+            <input type='checkbox' id='trage2'>
+            <input type='checkbox' id='trage3'>
+            <input type='checkbox' id='trage4'>
+            <input type='checkbox' id='trage5'><br />
+            <input type='checkbox' id='trage6'>
+            <input type='checkbox' id='trage7'>
+            <input type='checkbox' id='trage8'>
+            <input type='checkbox' id='trage9'>
+            <input type='checkbox' id='trage0'><hr />
+            Gnosis<br />
+            <input type='radio' id='gno1'>
+            <input type='radio' id='gno2'>
+            <input type='radio' id='gno3'>
+            <input type='radio' id='gno4'>
+            <input type='radio' id='gno5'><br />
+            <input type='radio' id='gno6'>
+            <input type='radio' id='gno7'>
+            <input type='radio' id='gno8'>
+            <input type='radio' id='gno9'>
+            <input type='radio' id='gno0'><br />
+            <input type='checkbox' id='tgno1'>
+            <input type='checkbox' id='tgno2'>
+            <input type='checkbox' id='tgno3'>
+            <input type='checkbox' id='tgno4'>
+            <input type='checkbox' id='tgno5'><br />
+            <input type='checkbox' id='tgno6'>
+            <input type='checkbox' id='tgno7'>
+            <input type='checkbox' id='tgno8'>
+            <input type='checkbox' id='tgno9'>
+            <input type='checkbox' id='tgno0'><hr />
+            Willpower<br />
+            <input type='radio' id='will1'>
+            <input type='radio' id='will2'>
+            <input type='radio' id='will3'>
+            <input type='radio' id='will4'>
+            <input type='radio' id='will5'><br />
+            <input type='radio' id='will6'>
+            <input type='radio' id='will7'>
+            <input type='radio' id='will8'>
+            <input type='radio' id='will9'>
+            <input type='radio' id='will0'><br />
+            <input type='checkbox' id='twill1'>
+            <input type='checkbox' id='twill2'>
+            <input type='checkbox' id='twill3'>
+            <input type='checkbox' id='twill4'>
+            <input type='checkbox' id='twill5'><br />
+            <input type='checkbox' id='twill6'>
+            <input type='checkbox' id='twill7'>
+            <input type='checkbox' id='twill8'>
+            <input type='checkbox' id='twill9'>
+            <input type='checkbox' id='twill0'>
+        </div>
+        <div class='lowerArea'>
+            <p>Health</p>
+                <input type='checkbox' id='Brused'>Brused<br />
+                -1<input type='checkbox' id='Hurt'>Hurt<br />
+                -1<input type='checkbox' id='Injured'>Injured<br />
+                -2<input type='checkbox' id='Wounded'>Wounded<br />
+                -2<input type='checkbox' id='Mauled'>Mauled<br />
+                -5<input type='checkbox' id='Crippled'>Crippled<br />
+                <input type='checkbox' id='Incapicated'>Incapicated         
+            <br />
+            <p>Rank</p>
+            <input type='text' id='cRank' min='1' max='15'>
+            <p>Experience</p>
+            <input type='number' id='cEXP' min='1' max='15'>
+        </div>
+    </article>
 
-    <script src="wodScripts.js"></script>
+    <script src='wodScripts.js'></script>
+    <script src='wodPrintScript.js'></script>
 
 </body> 
 
