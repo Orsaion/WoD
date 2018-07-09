@@ -25,7 +25,8 @@ function printNote() {
  */
 function printCharBlank() {
     var img = 
-        '<img src="logo.png" width="250" height="96" alt="WoD:W logo">';
+        '<img src="/resources/logo.png" width="250" height="96" alt="WoD:W logo'
+            + '">';
     win = window.open();
                     
     win.document.write( '<html><head><link rel="stylesheet" href="print.css" />'
@@ -35,8 +36,8 @@ function printCharBlank() {
         + '"topArea">Breed:<br /><br />Auspice:<br /><br />Tribe:<br /><br />' +
         '</div><div id="PPC" class="topArea">Pack-Name:<br /><br />Pack-Totem:'
         + '<br /><br/>Concept:<br /><br /></div>' );
-    win.document.write( '<div class="seperator"><img src="attributes.png" ' +
-        'width="675" height="75" alt="seperator"></img></div><div>' );
+    win.document.write( '<div class="seperator"><img src="/resources/attributes'
+        + '.png" width="675" height="75" alt="seperator"></img></div><div>' );
     win.document.write( '<div class="attributes"><p>Physical</p>Strength:<br />'
         + '<input type="radio"><input type="radio"><input type="radio"><input' +
         ' type="radio"><input type="radio"><br />Dexterity:<br /><input type=' +
@@ -58,8 +59,8 @@ function printCharBlank() {
         + '><input type="radio"><br />Wits:<br /><input type="radio"><input ' +
         'type="radio"><input type="radio"><input type="radio"><input type="' +
         'radio"></div></div>' );
-    win.document.write( '<div class="seperator"><img src="abilities.png" width='
-        + '"675" height="75" alt="seperator"></img></div><div>' );
+    win.document.write( '<div class="seperator"><img src="/resources/abilities.'
+        + 'png" width="675" height="75" alt="seperator"></img></div><div>' );
     win.document.write( '<div class="abilities"><p>Talents</p>Alertness:<br />' 
         + '<input type="radio"><input type="radio"><input type="radio"><input ' 
         + 'type="radio"><input type="radio"><br />Athletics:<br /><input type=' 
@@ -117,8 +118,8 @@ function printCharBlank() {
         'input type="radio"><input type="radio"><input type="radio"><br />' +
         'Science:<br /><input type="radio"><input type="radio"><input type="' +
         'radio"><input type="radio"><input type="radio"></div></div>' );
-    win.document.write( '<div class="seperator"><img src="advantages.png" ' +
-        'width="675" height="75" alt="seperator"></img></div><div>' );
+    win.document.write( '<div class="seperator"><img src="/resources/advantages'
+        + '.png" width="675" height="75" alt="seperator"></img></div><div>' );
     win.document.write( '<div class="advantages1"><p>Backgrounds</p><br /><' + 
         'input type="radio"><input type="radio"><input type="radio"><input type'
         + '="radio"><input type="radio"><br /><br /><br /><input type="radio"><'
@@ -131,8 +132,8 @@ function printCharBlank() {
         'type="radio"><input type="radio"></div>' );
     win.document.write( '<div class="advantages2"><p>Gifts</p></textarea>' +
         '</div></div>' );
-    win.document.write( '<div class="seperator"><img src="sep.png" width="675"' 
-        + ' height="75" alt="seperator"></img></div><div>' );
+    win.document.write( '<div class="seperator"><img src="/resources/sep.png"' +
+        'width="675" height="75" alt="seperator"></img></div><div>' );
     win.document.write( '<div class="lowerArea">Glory<br /><input type="radio"' 
     + '><input type="radio"><input type="radio"><input type="radio"><input type'
     + '="radio"><br /><input type="radio"><input type="radio"><input type="' +
@@ -192,7 +193,8 @@ function printCharBlank() {
 function printChar() {
     // top area
     var img = 
-        '<img src="logo.png" width="250" height="96" alt="WoD:W logo">';
+        '<img src="/resources/logo.png" width="250" height="96" alt="WoD:W logo'
+        + '">';
     var name = document.getElementById('cName').value;
     var player = document.getElementById('cPlayer').value;
     var chron = document.getElementById('cChronicle').value;
@@ -1001,8 +1003,8 @@ function printChar() {
         ausp + '<br />Tribe: ' + tribe + '<br /></div><div id="PPC" class="' +
         'topArea">Pack-Name: ' + pn + '<br />Pack-Totem: ' + pt + '<br/>' +
         'Concept: ' + concept + '<br /></div>' );
-    win.document.write( '<div class="seperator"><img src="attributes.png" ' +
-        'width="675" height="75" alt="seperator"></img></div><div>' );
+    win.document.write( '<div class="seperator"><img src="/resources/attributes'
+        + '.png" width="675" height="75" alt="seperator"></img></div><div>' );
     win.document.write( '<div class="attributes"><p>Physical</p>Strength:<br />'
         + '<input type="radio"' + cstr1 + '><input type="radio"' + cstr2 + '>' 
         + '<input type="radio"' + cstr3 + '><input type="radio"' + cstr4 + '>' +
@@ -1033,8 +1035,8 @@ function printChar() {
         'radio"' + cwit1 + '><input type="radio"' + cwit2 + '><input type="' +
         'radio"' + cwit3 + '><input type="radio"' + cwit4 + '><input type="' +
         'radio"' + cwit5 + '></div></div>' );
-    win.document.write( '<div class="seperator"><img src="abilities.png" width='
-        + '"675" height="75" alt="seperator"></img></div><div>' );
+    win.document.write( '<div class="seperator"><img src="/resources/abilities.'
+        + 'png" width="675" height="75" alt="seperator"></img></div><div>' );
     win.document.write( '<div class="abilities"><p>Talents</p>Alertness:<br />'
         + '<input type="radio"' + calert1 + '><input type="radio"' + calert2 +
         '><input type="radio"' + calert3 + '><input type="radio"' + calert4 +
@@ -1122,8 +1124,8 @@ function printChar() {
         '><input type="radio"' + csci2 + '><input type="radio"' + csci3 + '><' +
         'input type="radio"' + csci4 + '><input type="radio"' + csci5 + 
         '></div></div>' );
-    win.document.write( '<div class="seperator"><img src="advantages.png" ' +
-        'width="675" height="75" alt="seperator"></img></div><div>' );
+    win.document.write( '<div class="seperator"><img src="/resources/advantages'
+        + '.png" width="675" height="75" alt="seperator"></img></div><div>' );
     win.document.write( '<div class="advantages1"><p>Backgrounds</p>' + bg1 + 
         '<br /><input type="radio"' + cbg1dot1 + '><input type="radio"' + 
         cbg1dot2 + '><input type="radio"' + cbg1dot3 + '><input type="radio"' + 
@@ -1142,8 +1144,8 @@ function printChar() {
         cbg5dot4 + '><input type="radio"' + cbg5dot5 + '></div>' );   
     win.document.write( '<div class="advantages2"><p>Gifts</p>' + gifts +
         '</div></div>' );
-    win.document.write( '<div class="seperator"><img src="sep.png" width="675"' 
-        + ' height="75" alt="seperator"></img></div><div>' );
+    win.document.write( '<div class="seperator"><img src="/resources/sep.png"' + 
+        ' width="675" height="75" alt="seperator"></img></div><div>' );
     win.document.write( '<div class="lowerArea">Glory<br /><input type="radio"' 
         + cglory1 + '><input type="radio"' + cglory2 + '><input type="radio"' +
         cglory3 + '><input type="radio"' + cglory4 + '><input type="radio"' +

@@ -8,13 +8,13 @@
 */
 function introBtn() {
     var x = new XMLHttpRequest();
-        x.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var r = JSON.parse(x.responseText); 
-                document.getElementById('textBody').innerHTML= r.open;
-            }
-        };
-    x.open('GET', 'open.json', true);
+    x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var r = JSON.parse(x.responseText); 
+        document.getElementById('textBody').innerHTML= r.open;
+        }
+    };
+    x.open('GET', '/resources/open.json', true);
     x.send();
     // reset to opening layout 
     chapterMenu.style.display= 'block';
@@ -148,18 +148,18 @@ function charRunes() {
         rsof = '<p id="rResult" class="runeText" style="color: LawnGreen">' + 
             pass + " success!<p></p>With a roll of " + ran + "</p>";
         } else if ( pass >= 2 ) {
-            rsof = '<p id="rResult" class="runeText" style="color: LawnGreen">' + 
-                pass + " successes!<p></p>With a roll of " + ran + "</p>";
+            rsof = '<p id="rResult" class="runeText" style="color: LawnGreen">' 
+                + pass + " successes!<p></p>With a roll of " + ran + "</p>";
             rsof = '<p id="rResult" class="runeText"></p>';
         } else if ( ran.length != 0 && pass == 0 && fail == 0 ) {
-            rsof = '<p id="rResult" class="runeText">Fail.<p></p>With a roll of ' +
-                    ran + '</p>';
+            rsof = '<p id="rResult" class="runeText">Fail.<p></p>With a roll of' 
+                + ' ' + ran + '</p>';
         } else if ( pass <= 0 && fail >= 1 ) {
             rsof = '<p id="rResult" class="runeText" style="color: red">' +
                 'Botch!<p></p>With a roll of ' + ran + '</p>';
         } else {
-            rsof = '<p id="rResult" class="runeText">Fail.<p></p>With a roll of ' +
-                    ran + '</p>';
+            rsof = '<p id="rResult" class="runeText">Fail.<p></p>With a roll of' 
+                + ' ' + ran + '</p>';
         }
    }
    document.getElementById('iEcho2').innerText= output;
@@ -176,4 +176,140 @@ function rpOpen() {
 function rpClose() { 
     rP1.style.display= 'none';
     runesBtn.disabled = !runesBtn.disabled;
-} 
+}
+/** Function notes() will hide the main article area and display the div
+ * containing the buttons and textarea for the Notes section.
+ */
+function switchNotes() {
+    chapterMenu.style.display= 'block';
+    mainTextArea.style.display= 'block';     
+    textBody.style.display= 'none';
+    noteBtns.style.display= 'block';
+    noteArea.style.display= 'block';
+    rP2.style.display= 'none';
+    sheet.style.display= 'none';
+}
+/** Function switchChap will hide the div containing the buttons and
+ * text area for the note Section. Then reenable the main article div so 
+ * the user can continue to scan the chapters/sections again.
+ */
+function switchChap() {
+    chapterMenu.style.display= 'block';
+    mainTextArea.style.display= 'block';     
+    textBody.style.display= 'block';
+    noteBtns.style.display= 'none';
+    noteArea.style.display= 'none';
+    rP2.style.display= 'none';
+    sheet.style.display= 'none';
+}
+/** Function getNote() will make a call to the local storage area client-
+ * side to grab a previously saved file then load that into the text area
+ * so the user can read/edit it.
+ */
+function getNote(file, location) {
+    // using a test file for the moment.
+    var x = new XMLHttpRequest();
+    x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var r = JSON.parse(x.responseText);
+        document.getElementById('noteArea').innerText= r.note;
+        }
+    };
+    x.open('GET', file, true);
+    x.send();
+}
+/** Function saveNote() will allow the user to save a file to the client-
+* side local storage device that can be pulled later on with getNote(). 
+* All content in the textArea will be copied to the file.
+*/
+function saveNote() {
+    var note = document.getElementById('noteArea').value;
+    var nJSON;
+    
+    if (note != null && note.length >= 1) {                
+        nJSON = '{"note":' + JSON.stringify(note) + '}';
+        console.log(nJSON);
+
+        // still learning how to save locally
+
+    } else { alert( 'No text detected...' ); }
+}
+/** Function clearNote() removes all text from noteArea */
+function clearNote() {           
+   if ( confirm( 'Are you sure you want to remove all notes? ') ) {
+       document.getElementById('noteArea').innerText = "";               
+   }
+}
+
+
+
+/** All of the following functions are going to be used to access 
+ * different parts of the main database. The call will come in looking for
+ * specific portions, then alter the article div to display the HTML code.
+ * All the information in the db has been written as formatted and tagged 
+ * HTML allowing them to be stylized upon load. Because some parts will 
+ * pull several different db sectors, this pre-fab code helps maintain a 
+ * consistant look and feel of the article div/text.
+ */
+   function changeText() { 
+       // until I have the SQL DB up and running, I've put in test code to 
+       // make sure everything works. This will be changed later on.        
+       document.getElementById('textBody').innerHTML='<p>Half human. Half' +
+       ' beast. Predators that stalk the deepest woods and the darkest ' +
+       'urban alleyways. Monsters that creep up on their prey like ghosts, '
+       + 'open explode into a fury of claws and fangs. Beasts that howl ' +
+       'under the full moon and kill those that cross the boundaries of ' +
+       'their territory...</p><p><b><i>Werewolves.</i></b></p>';
+       
+       // adding ability to change back to chapters by clicking on btns
+       switchChap();
+   }
+   function changeBack() { 
+       document.getElementById('textBody').innerHTML='<p>And now, for ' +
+       'something completely different...</p>';
+       switchChap();
+   } 
+   function change3() {
+        document.getElementById('textBody').innerHTML='<p><em>Add some ' +
+        'stuff from Ch3...</em></p>';
+        switchChap();
+   }
+   function change4() {
+        document.getElementById('textBody').innerHTML='<img src="' + 
+        '/resources/wolf.png" width="500" height="500" alt="wolf picture"' +
+        '></img>';
+        switchChap();
+   }
+   function change5() {
+        document.getElementById('textBody').innerHTML='Add some stuff from' 
+        + ' Ch5...';
+        switchChap();
+   }
+   function change6() {
+        document.getElementById('textBody').innerHTML='Add some stuff from'
+        + ' Ch6...';
+        switchChap();
+   }
+   function change7() {
+        document.getElementById('textBody').innerHTML='Add some stuff from'
+        + ' Ch7...';
+        switchChap();
+   }
+   function change8() {
+        document.getElementById('textBody').innerHTML='Add some stuff from' 
+        + ' Ch8...';
+        switchChap();
+   }
+   function change9() {
+        document.getElementById('textBody').innerHTML='Add some stuff from' 
+        + ' Ch9...';
+        switchChap();
+   }
+   function soupDrinker() {
+        document.getElementById('textBody').innerHTML='<p><em>What are you' 
+        + ' doing?</em></p><p>It is not time to drink soup!</p>';
+        switchChap();
+   } 
+   /* end of text change functions for the moment */
+
+

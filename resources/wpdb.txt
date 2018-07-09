@@ -1,0 +1,8 @@
+
+-added css for top nav buttons
+-set up chapter/subsection layout 
+-organized files into subfolder
+-added php for accessing data from MySQL db
+-began populating data for MySQL db
+
+Added all files and MySQL to a local server. The website is live, albeit with a few typos in the text it will gather from the db. visit it at Orsaion.xyz/AWareWolf.html

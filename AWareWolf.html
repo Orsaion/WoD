@@ -5,170 +5,34 @@
    <meta name='viewport' context='width=device-width, initial-scale=1.0' />
    <title>A Were-Wolf Guide</title>   
    <meta name='discription' content='WoD, WhiteWolf, Werewolf' />
-   <meta name='version' content='v1.4' />
+   <meta name='version' content='v1.5' />
    <meta name='author' content='Orsaion' />
 
-   <!-- Eventually this block will be moved to seperate file(s) to speed up 
-    page load. Some functions are already in another js file. -->
-   <script>
-       //'use strict';
-
+   
+    <script>
     /** Function intro() will clear out the text area and display the opening
-    * story that's first loaded when you reach the page.
-    */
+     * story that's first loaded when you reach the page.
+     */
     function intro() {
         var x = new XMLHttpRequest();
-            x.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var r = JSON.parse(x.responseText); 
-                    document.getElementById('textBody').innerHTML= r.open;
+        x.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var r = JSON.parse(x.responseText); 
+                document.getElementById('textBody').innerHTML= r.open;
                 }
             };
-        x.open('GET', 'test.json', true);
+        x.open('GET', '/resources/test.json', true);
         x.send();
-    }
+    } 
+    
+    </script>
 
-       /** Function notes() will hide the main article area and display the div
-       * containing the buttons and textarea for the Notes section.
-       */
-       function switchNotes() {
-           chapterMenu.style.display= 'block';
-           mainTextArea.style.display= 'block';     
-           textBody.style.display= 'none';
-           noteBtns.style.display= 'block';
-           noteArea.style.display= 'block';
-           rP2.style.display= 'none';
-           sheet.style.display= 'none';
-       }
-       /** Function switchChap will hide the div containing the buttons and
-       * text area for the note Section. Then reenable the main article div so 
-       * the user can continue to scan the chapters/sections again.
-       */
-       function switchChap() {
-           chapterMenu.style.display= 'block';
-           mainTextArea.style.display= 'block';     
-           textBody.style.display= 'block';
-           noteBtns.style.display= 'none';
-           noteArea.style.display= 'none';
-           rP2.style.display= 'none';
-           sheet.style.display= 'none';
-       }
-
-       /** All of the following functions are going to be used to access 
-       * different parts of the main database. The call will come in looking for
-       * specific portions, then alter the article div to display the HTML code.
-       * All the information in the db has been written as formatted and tagged 
-       * HTML allowing them to be stylized upon load. Because some parts will 
-       * pull several different db sectors, this pre-fab code helps maintain a 
-       * consistant look and feel of the article div/text.
-       */
-       function changeText() { 
-           // until I have the SQL DB up and running, I've put in test code to 
-           // make sure everything works. This will be changed later on.        
-           document.getElementById('textBody').innerHTML='<p>Half human. Half' +
-           ' beast. Predators that stalk the deepest woods and the darkest ' +
-           'urban alleyways. Monsters that creep up on their prey like ghosts, '
-           + 'open explode into a fury of claws and fangs. Beasts that howl ' +
-           'under the full moon and kill those that cross the boundaries of ' +
-           'their territory...</p><p><b><i>Werewolves.</i></b></p>';
-           
-           // adding ability to change back to chapters by clicking on btns
-           switchChap();
-       }
-       function changeBack() { 
-           document.getElementById('textBody').innerHTML='<p>And now, for ' +
-           'something completely different...</p>';
-           switchChap();
-       } 
-       function change3() {
-            document.getElementById('textBody').innerHTML='<p><em>Add some ' +
-            'stuff from Ch3...</em></p>';
-            switchChap();
-       }
-       function change4() {
-            document.getElementById('textBody').innerHTML='<img src="wolf.png"' 
-            + 'width="500" height="500" alt="wolf picture"></img>';
-            switchChap();
-       }
-       function change5() {
-            document.getElementById('textBody').innerHTML='Add some stuff from' 
-            + ' Ch5...';
-            switchChap();
-       }
-       function change6() {
-            document.getElementById('textBody').innerHTML='Add some stuff from'
-            + ' Ch6...';
-            switchChap();
-       }
-       function change7() {
-            document.getElementById('textBody').innerHTML='Add some stuff from'
-            + ' Ch7...';
-            switchChap();
-       }
-       function change8() {
-            document.getElementById('textBody').innerHTML='Add some stuff from' 
-            + ' Ch8...';
-            switchChap();
-       }
-       function change9() {
-            document.getElementById('textBody').innerHTML='Add some stuff from' 
-            + ' Ch9...';
-            switchChap();
-       }
-       function soupDrinker() {
-            document.getElementById('textBody').innerHTML='<p><em>What are you' 
-            + ' doing?</em></p><p>It is not time to drink soup!</p>';
-            switchChap();
-       } 
-       /* end of text change functions for the moment */
-
-
-       /** Function getNote() will make a call to the local storage area client-
-       * side to grab a previously saved file then load that into the text area
-       * so the user can read/edit it.
-       */
-       function getNote(file, location) {
-            // using a test file for the moment.
-            var x = new XMLHttpRequest();
-            x.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var r = JSON.parse(x.responseText);
-                    document.getElementById('noteArea').innerText= r.note;
-                }
-            };
-            x.open('GET', file, true);
-            x.send();
-       }
-       /** Function saveNote() will allow the user to save a file to the client-
-       * side local storage device that can be pulled later on with getNote(). 
-       * All content in the textArea will be copied to the file.
-       */
-       function saveNote() {
-            var note = document.getElementById('noteArea').value;
-            var nJSON;
-            
-            if (note != null && note.length >= 1) {                
-                nJSON = '{"note":' + JSON.stringify(note) + '}';
-                console.log(nJSON);
-
-                // still learning how to save locally
-
-            } else { alert( 'No text detected...' ); }
-       }
-       /** Function clearNote() removes all text from noteArea */
-       function clearNote() {           
-           if ( confirm( 'Are you sure you want to remove all notes? ') ) {
-               document.getElementById('noteArea').innerText = "";               
-           }
-       }
-   
-   </script>
-
-    <link rel='stylesheet' href='wodCss.css' /> 
-    <!-- external CSS for printing and normal layout added. I'll leave style
-        tag here though to qickly change things as I go before adding it to main
-        css file. -->
+    <link rel='stylesheet' href='wodCss.css' />
+    <link href="https://fonts.googleapis.com/css?family=Uncial+Antiqua" rel=
+        "stylesheet">
+        
    <style>
+       /* for test stylization */
    </style> 
 
 </head>
@@ -179,12 +43,16 @@
     <section>
     <div>
         <top>
-            <button type='button' onclick='switchChap()'>Read a Page</button>
-            <button type='button' onclick='charShow()'>Characters</button>
-            <button type='button' onclick='switchNotes()'>Take a Note</button>
-            <button type='button' id='runesBtn' onclick='rpOpen()'>Chance Runes
-                </button>
-            <button type='button' onclick='introBtn()'>Opening Text</button>
+            <button type='button' class='topButton' onclick='switchChap()'>
+                Read a Page</button>
+            <button type='button' class='topButton' onclick='charShow()'>
+                Characters</button>
+            <button type='button' class='topButton' onclick='switchNotes()'>
+                Take a Note</button>
+            <button type='button' id='runesBtn' class='topButton' onclick=
+                'rpOpen()'>Chance Runes</button>
+            <button type='button' class='topButton' onclick='introBtn()'>
+                Opening Text</button>
         </top>
     </div>
     </section>
@@ -199,92 +67,359 @@
             working correctly. -->
             <button class='accordion'>A World of Darkness</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button>                    
+                <button type='submit' class='button' name='intro'>Introduction
+                    </button>
+                <button type='submit' class='button' name='breeds'>Breeds
+                    </button>
+                <button type='submit' class='button' name='auspices'>Auspices
+                    </button>
+                <button type='submit' class='button' name='12Tribes'>12 Tribes
+                    </button> 
+                <button type='submit' class='button' name='cosmology'
+                    >Garou Cosmology</button>
+                <button type='submit' class='button' name='lostTribes'
+                    >The Lost Tribes</button>
+                <button type='submit' class='button' name='caernsSoc'
+                    >Cearns and Society</button>
+                <button type='submit' class='button' name='litany'>The Litany
+                    </button>
+                <button type='submit' class='button' name='justice'>Justice
+                    </button>
+                <button type='submit' class='button' name='heirachy'>Hierachy
+                    </button>
+                <button type='submit' class='button' name='domSub'
+                    >Dominance and Submission</button>
+                <button type='submit' class='button' name='pack'>The Pack
+                    </button>
+                <button type='submit' class='button' name='totem'>Totems
+                    </button>
+                <button type='submit' class='button' name='sept'>The Sept
+                    </button>
+                <button type='submit' class='button' name='tribe'>The Tribe
+                    </button>
+                <button type='submit' class='button' name='moots'>Moots
+                    </button>
+                <button type='submit' class='button' name='tmoot'>Tribal Moots
+                    </button>
+                <button type='submit' class='button' name='revelry'>Revelry
+                    </button>
+                <button type='submit' class='button' name='lang'>Language
+                    </button>
+                <button type='submit' class='button' name='howl'>Howls
+                    </button>
+                <button type='submit' class='button' name='rage'
+                    >Rage Across the World</button>
+                <button type='submit' class='button' name='wyrm'>The Wyrm
+                    </button>
+                <button type='submit' class='button' name='weaver'>The Weaver
+                    </button>
+                <button type='submit' class='button' name='parlance'>Parlance
+                    </button>
+                <button type='submit' class='button' name='full'
+                    >Full Chapter</button>                
             </div>
 
             <button class='accordion'>The Garou</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button> 
+                <button type='submit' class='button' name='breeds'>Breed Rules
+                    </button>
+                <button type='submit' class='button' name='auspice'
+                    >Auspice/Tribe Rules</button>
+                <button type='submit' class='button' name='furies'
+                    >Black Furies</button>
+                <button type='submit' class='button' name='gnawers'
+                    >Bone Gnawers</button>
+                <button type='submit' class='button' name='gaia'
+                    >Children of Gaia</button>
+                <button type='submit' class='button' name='fianna'
+                    >Fianna</button>
+                <button type='submit' class='button' name='fenris'
+                    >Get of Fenris</button>
+                <button type='submit' class='button' name='walkers'
+                    >Glass Walkers</button>
+                <button type='submit' class='button' name='talons'
+                    >Red Talons</button>
+                <button type='submit' class='button' name='lords'
+                    >Shadow Lords</button>
+                <button type='submit' class='button' name='striders'
+                    >Silent Striders</button>
+                <button type='submit' class='button' name='fangs'
+                    >Silver Fangs</button>
+                <button type='submit' class='button' name='uktena'
+                    >Uktena</button>
+                <button type='submit' class='button' name='wedigo'
+                    >Wendigo</button>
+                <button type='submit' class='button' name='full'
+                    >Full Chapter</button> 
             </div>
 
             <button class='accordion'>Characters and Traits</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button>  
+                <button type='submit' class='button' name='intro'
+                    >Introduction</button>
+                <button type='submit' class='button' name='storyteller'
+                    >Storyteller's Role</button>
+                <button type='submit' class='button' name='concept'
+                    >Character Concept</button>
+                <button type='submit' class='button' name='chooseAtt'
+                    >Choosing Attributes</button>
+                <button type='submit' class='button' name='chooseAbi'
+                    >Choosing Abilities</button>
+                <button type='submit' class='button' name='advantages'
+                    >Advantages</button>
+                <button type='submit' class='button' name='finishing'
+                    >Finishing Touches</button>
+                <button type='submit' class='button' name='Spark'
+                    >Spark of Life</button>
+                <button type='submit' class='button' name='pack'
+                    >The Pack</button>
+                <button type='submit' class='button' name='prelude'
+                    >The Prelude</button>
+                <button type='submit' class='button' name='attributes'
+                    >Attributes</button>
+                <button type='submit' class='button' name='attTalent'
+                    >Talents</button>
+                <button type='submit' class='button' name='attSkill'
+                    >Skills</button>
+                <button type='submit' class='button' name='attKnow'
+                    >Knowledges</button>
+                <button type='submit' class='button' name='back'
+                    >Backgrounds</button>
+                <button type='submit' class='button' name='renown'
+                    >Renown</button>
+                <button type='submit' class='button' name='rank'>Rank</button>
+                <button type='submit' class='button' name='rage'>Rage</button>
+                <button type='submit' class='button' name='gnosis'
+                    >Gnosis</button>
+                <button type='submit' class='button' name='will'
+                    >Willpower</button>
+                <button type='submit' class='button' name='health'
+                    >Health</button>
+                <button type='submit' class='button' name='full'
+                    >Full Chapter</button>  
             </div>
 
             <button class='accordion'>Gifts and Rites</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button>  
+                <button type='submit' class='button' name='gifts'>Gifts</button>
+                <button type='submit' class='button' name='lGifts'
+                    >Learning Gifts</button>
+                <button type='submit' class='button' name='sys'>Systems</button>
+                <button type='submit' class='button' name='bGifts'
+                    >Breed Gifts</button>
+                <button type='submit' class='button' name='aGifts'
+                    >Auspice Gifts</button>  
+                <button type='submit' class='button' name='tGifts'
+                    >Tribal Gifts</button>
+                <button type='submit' class='button' name='types'
+                    >Types of Rites</button>
+                <button type='submit' class='button' name='lRite'
+                    >Learning a Rite</button>
+                <button type='submit' class='button' name='eRite'
+                    >Enacting a Rite</button>
+                <button type='submit' class='button' name='aRoles'
+                    >Auspice Roles</button>
+                <button type='submit' class='button' name='rAccord'
+                    >Rites of Accord</button>
+                <button type='submit' class='button' name='rCaern'
+                    >Caern Rites</button>
+                <button type='submit' class='button' name='rDeath'
+                    >Rites of Death</button>
+                <button type='submit' class='button' name='rMystic'
+                    >Mystic Rites</button>
+                <button type='submit' class='button' name='rPunish'
+                    >Punishment Rites</button>
+                <button type='submit' class='button' name='rRenown'
+                    >Rites of Renown</button>
+                <button type='submit' class='button' name='rSeason'
+                    >Seasonal Rites</button>
+                <button type='submit' class='button' name='rMinor'
+                    >Minor Rites</button>
+                <button type='submit' class='button' name'full'
+                    >Full Chapter</button>
             </div>
 
             <button class='accordion'>Rules</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button>   
+                <button type='submit' class='button' name='intro'>
+                    Introduction</button>
+                <button type='submit' class='button' name='time'>Time</button>
+                <button type='submit' class='button' name='actions'
+                    >Actions</button>
+                <button type='submit' class='button' name='dice'
+                    >Rolling Dice</button>
+                <button type='submit' class='button' name='raiting'
+                    >Raitings</button>  
+                <button type='submit' class='button' name='introTwo'
+                    >Introduction</button>
+                <button type='submit' class='button' name='ref'
+                    >Reflexives</button>
+                <button type='submit' class='button' name='hard'
+                    >Difficulties</button>
+                <button type='submit' class='button' name='fail'>Falure</button>
+                <button type='submit' class='button' name='botch'>Botch</button>
+                <button type='submit' class='button' name='auto'
+                    >Automatic Successes</button>
+                <button type='submit' class='button' name='tryAgain'
+                    >Trying Again</button>
+                <button type='submit' class='button' name='multiple'
+                    >Multiple Actions</button>
+                <button type='submit' class='button' name='complications'
+                    >Complications</button>
+                <button type='submit' class='button' name='extended'
+                    >Extended Actions</button>
+                <button type='submit' class='button' name='resisted'
+                    >Resisted Actions</button>
+                <button type='submit' class='button' name='team'
+                    >Teamwork</button>
+                <button type='submit' class='button' name='golden'
+                    >The Golden Rule</button>
+                <button type='submit' class='button' name='try'
+                    >Try It Out</button>
+                <button type='submit' class='button' name='full'
+                    >Full Chapter</button> 
             </div>
 
             <button class='accordion'>Systems and Drama</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button> 
+                <button type='submit' class='button' name='exp'
+                    >Experience Points</button>
+                <button type='submit' class='button' name='aExp'
+                    >Awarding Experience</button>
+                <button type='submit' class='button' name='sExp'
+                    >Spending Experience</button>
+                <button type='submit' class='button' name='use'
+                    >Use of Roleplay</button>
+                <button type='submit' class='button' name='awardingRenown'
+                    >Awarding Renown</button> 
+                <button type='submit' class='button' name='looseRenown'
+                    >Loosing Renown</button>
+                <button type='submit' class='button' name='renunciation'
+                    >Renunciation</button>
+                <button type='submit' class='button' name='pStates'
+                    >Physical States</button>
+                <button type='submit' class='button' name='injury'
+                    >Sources of Injury</button>
+                <button type='submit' class='button' name='scars'
+                    >Battle Scars</button>
+                <button type='submit' class='button' name='mStates'
+                    >Mental States</button>
+                <button type='submit' class='button' name='drama'>Drama</button>
+                <button type='submit' class='button' name='scenes'
+                    >Scenes</button>
+                <button type='submit' class='button' name='downtime'
+                    >Downtime</button>
+                <button type='submit' class='button' name='turns'>Turns</button>
+                <button type='submit' class='button' name='multi'
+                    >Multiple Actions</button>
+                <button type='submit' class='button' name='actionScenes'
+                    >Action Scenes</button>
+                <button type='submit' class='button' name='organize'
+                    >Organizing an Action Turn</button>
+                <button type='submit' class='button' name='taking'
+                    >Taking Actions</button>
+                <button type='submit' class='button' name='dramaticSys'
+                    >Dramatic Systems</button>
+                <button type='submit' class='button' name='pFeats'
+                    >Physical Feats</button>
+                <button type='submit' class='button' name='sFeats'
+                    >Social Feats</button>
+                <button type='submit' class='button' name='mFeats'
+                    >Mental Feats</button>
+                <button type='submit' class='button' name='forms'
+                    >The Many Forms</button>
+                <button type='submit' class='button' name='combat'
+                    >Combat</button>
+                <button type='submit' class='button' name='hard'
+                    >Complications</button>
+                <button type='submit' class='button' name='ranged'
+                    >Ranged Combat</button>
+                <button type='submit' class='button' name='close'
+                    >Close Combat</button>
+                <button type='submit' class='button' name='full'
+                    >Full Chapter</button>
             </div>
 
             <button class='accordion'>The Umbra</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button>  
-            </div>
-
-            <button class='accordion'>Storytelling</button>
-            <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button>  
+                <button type='submit' class='button' name='umbra'
+                    >The Umbra</button>
+                <button type='submit' class='button' name='tellurian'
+                    >The Tellurian</button>
+                <button type='submit' class='button' name='shape'
+                    >The Shape of the World</button>
+                <button type='submit' class='button' name='myth'
+                    >The Creation Myth</button>
+                <button type='submit' class='button' name='enviroment'
+                    >The Umbral Enviroment</button>  
+                <button type='submit' class='button' name='travel'
+                    >Umbral Travel</button>
+                <button type='submit' class='button' name='nature'
+                    >The Nature of Spirits</button>
+                <button type='submit' class='button' name='full'
+                    >Full Chapter</button>
             </div>
 
             <button class='accordion'>Antagonists</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button>  
+                <button type='submit' class='button' name='serpant'
+                    >The Serpant</button>
+                <button type='submit' class='button' name='bsd'
+                    >Black Spiral Dancers</button>
+                <button type='submit' class='button' name='fomori'
+                    >Fomori</button>
+                <button type='submit' class='button' name='vamp'
+                    >Vampires</button>
+                <button type='submit' class='button' name='mage'
+                    >Mages</button> 
+                <button type='submit' class='button' name='mummy'
+                    >Walking Dead</button>
+                <button type='submit' class='button' name='sads'
+                    >Unforunates</button>
+                <button type='submit' class='button' name='weaver'
+                    >Weaver</button>
+                <button type='submit' class='button' name='otherSads'
+                    >Other Unforunates</button>
+                <button type='submit' class='button' name='wyld'>Wyld</button>
+                <button type='submit' class='button' name='wyrm'>Wyrm</button>
+                <button type='submit' class='button' name='human'
+                    >Human Agencies</button>
+                <button type='submit' class='button' name='other'
+                    >Other Groups</button>
+                <button type='submit' class='button' name='full'
+                    >Full Chapter</button> 
             </div>
 
             <button class='accordion'>Allies and Ammunition</button>
             <div class='panel'>
-                <button class='button' onclick='changeText()'>Section 1</button>
-                <button class='button' onclick='changeBack()'>Section 2</button>
-                <button class='button' onclick='change3()'>Section 3</button>
-                <button class='button' onclick='change4()'>Das Wolfy</button>
-                <button class='button' onclick='soupDrinker()'>Soup!</button>  
+                <button type='submit' class='button' name='stargazers'
+                    >The Stargazers</button>
+                <button type='submit' class='button' name='spirits'
+                    >The Spirits</button>
+                <button type='submit' class='button' name='pTotem' 
+                    >Pack Totems</button>
+                <button type='submit' class='button' name='tRespect'
+                    >Totems of Respect</button>
+                <button type='submit' class='button' name='tWar'
+                    >Totems of War</button>  
+                <button type='submit' class='button' name='tWisdom'
+                    >Totems of Wisdom</button>
+                <button type='submit' class='button' name='tCunning'
+                    >Totems of Cunning</button>
+                <button type='submit' class='button' name='naturae'
+                    >Naturae</button>
+                <button type='submit' class='button' name='mStargazers'
+                    >Stargazers</button>
+                <button type='submit' class='button' name='oldSpirits'
+                    >Ancestor Spirits</button>
+                <button type='submit' class='button' name='eles'
+                    >Elementals</button>
+                <button type='submit' class='button' name='enigmatic'
+                    >Enigmatic Spirits</button>
+                <button type='submit' class='button' name='fetish'
+                    >Sample Fetishes</button>
+                <button type='submit' class='button' name='full'
+                    >Full Chapter</button>
             </div>
 
             <script>
@@ -340,7 +475,7 @@
         </div>
         <div id='noteBtns' style='display: none'>
             <button type'button' id='open' class='buttonNote' style='width: 24%' 
-            onclick='getNote("test.json", null)'>Open a Note</button> 
+            onclick='getNote("/resources/test.json", null)'>Open a Note</button> 
             <button type'button' id='save' class='buttonNote' style='width: 24%'
             onclick='saveNote()'>Save a Note</button>
             <button type'button' id='print' class='buttonNote' style='width: 
@@ -376,7 +511,8 @@
     </div>
     <article id='sheet' class='char'>
         <div class='header'>
-            <img src='logo.png' width='250' height='96' alt='WoD:W logo'></img>
+            <img src='/resources/logo.png' width='250' height='96' alt=
+                'WoD:W logo'></img>
         </div>
         <div id='NPC' class='topArea'>
             Name:<input type='text' id='cName' min='1' max='15'><br />
@@ -394,8 +530,8 @@
             Concept:<input type='text' id='cConcept' min='1' max='15'>
         </div>
         <div class='seperator'>
-            <img src='attributes.png' width='500' height='75' alt='seperator'>
-            </img>
+            <img src='/resources/attributes.png' width='500' height='75' alt=
+                'seperator'></img>
         </div>
         <div class='attributes'>
             <p>Physical</p>
@@ -461,8 +597,8 @@
             <input type='radio' id='wit5'>            
         </div>
         <div class='seperator'>
-            <img src='abilities.png' width='500' height='75' alt='seperator'>
-            </img>
+            <img src='/resources/abilities.png' width='500' height='75' alt=
+                'seperator'></img>
         </div>
         <div class='abilities'>
             <p>Talents</p>
@@ -654,8 +790,8 @@
             <input type='radio' id='sci5'>
         </div>
         <div class='seperator'>
-            <img src='advantages.png' width='500' height='75' alt='seperator'>
-            </img>
+            <img src='/resources/advantages.png' width='500' height='75' alt=
+                'seperator'></img>
         </div>
         <div class='advantages1'>
             <p>Backgrounds</p>
@@ -696,7 +832,8 @@
             </textarea>
         </div>
         <div class='seperator'>
-            <img src='sep.png' width='500' height='75' alt='seperator'></img>
+            <img src='/resources/sep.png' width='500' height='75' alt=
+                'seperator'></img>
         </div>
         <div class='lowerArea'>
             Glory<br />
@@ -844,7 +981,7 @@
             <input type='number' id='cEXP' min='1' max='15'>
         </div>
     </article>
-
+    
     <script src='wodScripts.js'></script>
     <script src='wodPrintScript.js'></script>
 
