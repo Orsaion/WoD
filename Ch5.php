@@ -1,262 +1,95 @@
-<?php 
-/** This php handles all the buttons from the third chapter - Characters and 
- * Traits. Then queries the MySQL db to return the correct data.
+<?php
+/** This php handles all the buttons from the fifth chapter - Rules. Then
+ * queries the MySQL db to return the correct data.
  */
 
-require 'resources/wodConfig.php';
+require '../resources/wodConfig.php';
 
-// check which button was submitted
+// check which button was submitted 
 if ( isset( $_POST['intro'] )) {
     $passnum = 1;
 }
-if ( isset( $_POST['storyteller'] )) {
+if ( isset( $_POST['time'] )) {
     $passnum = 2;
 }
-if ( isset( $_POST['concept'] )) {
+if ( isset( $_POST['actions'] )) {
     $passnum = 3;
 }
-if ( isset( $_POST['chooseAtt'] )) {
+if ( isset( $_POST['dice'] )) {
     $passnum = 4;
 }
-if ( isset( $_POST['chooseAbi'] )) {
+if ( isset( $_POST['raiting'] )) {
     $passnum = 5;
 }
-if ( isset( $_POST['advantages'] )) {
+if ( isset( $_POST['ref'] )) {
     $passnum = 6;
 }
-if ( isset( $_POST['finishing'] )) {
+if ( isset( $_POST['hard'] )) {
     $passnum = 7;
 }
-if ( isset( $_POST['spark'] )) {
+if ( isset( $_POST['fail'] )) {
     $passnum = 8;
-} 
-if ( isset( $_POST['justice'] )) {
+}
+if ( isset( $_POST['botch'] )) {
     $passnum = 9;
-} 
-if ( isset( $_POST['pack'] )) {
+}
+if ( isset( $_POST['auto'] )) {
     $passnum = 10;
 } 
-if ( isset( $_POST['prelude'] )) {
+if ( isset( $_POST['difSuc'] )) {
     $passnum = 11;
 } 
-if ( isset( $_POST['attributes'] )) {
+if ( isset( $_POST['tryAgain'] )) {
     $passnum = 12;
 } 
-if ( isset( $_POST['attTalent'] )) {
+if ( isset( $_POST['multiple'] )) {
     $passnum = 13;
 } 
-if ( isset( $_POST['attSkill'] )) {
+if ( isset( $_POST['complications'] )) {
     $passnum = 14;
 } 
-if ( isset( $_POST['attKnow'] )) {
+if ( isset( $_POST['extended'] )) {
     $passnum = 15;
 } 
-if ( isset( $_POST['back'] )) {
+if ( isset( $_POST['resisted'] )) {
     $passnum = 16;
 } 
-if ( isset( $_POST['renown'] )) {
+if ( isset( $_POST['team'] )) {
     $passnum = 17;
 } 
-if ( isset( $_POST['rank'] )) {
+if ( isset( $_POST['golden'] )) {
     $passnum = 18;
 } 
-if ( isset( $_POST['rage'] )) {
+if ( isset( $_POST['tryIt'] )) {
     $passnum = 19;
 } 
-if ( isset( $_POST['gnosis'] )) {
+if ( isset( $_POST['examTerm'] )) {
     $passnum = 20;
-} 
-if ( isset( $_POST['will'] )) {
-    $passnum = 21;
-} 
-if ( isset( $_POST['health'] )) {
-    $passnum = 22;
-}  
+}
 if ( isset( $_POST['full'] )) {
-    $passnum = 25;
+    $passnum = 21;
 }
 
 // Create/Check connection
 $conn = new mysqli(DB_SERVER_HOST, DB_USER, DB_PASS, DB_NAME);
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("<p>Connection failed: " . $conn->connect_error . "</p>");
 } 
 
 // fetch selected data
-if ( $passnum == 1 ) { // intro
-    $sql = "SELECT sectext FROM chap3 Where Id BETWEEN 1 AND 2";
+if ( $passnum == 1 ) { // rules intro
+    $sql = "SELECT sectext FROM chap5 Where id = 1";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p> num 1";
-    }
-} else if ( $passnum == 2 ) { // storyteller
-    $sql = "SELECT sectext FROM chap3 Where id = 3";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 3 ) { // concept
-    $sql = "SELECT sectext FROM chap3 Where id = 4";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 4 ) { // attributes
-    $sql = "SELECT sectext FROM chap3 Where id = 5";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 5 ) { // abilities
-    $sql = "SELECT sectext FROM chap3 Where id = 6";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 6 ) { // advantages
-    $sql = "SELECT sectext FROM chap3 Where id = 7";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 7 ) { // finishing touches
-    $sql = "SELECT sectext FROM chap3 Where id = 8";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 8 ) { // spark of life
-    $sql = "SELECT sectext FROM chap3 Where id = 9";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 9 ) { // pack
-    $sql = "SELECT sectext FROM chap3 Where id = 10";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 10 ) { // prelude
-    $sql = "SELECT sectext FROM chap3 Where id = 11";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 11 ) { // attributes
-    $sql = "SELECT sectext FROM chap3 Where id BETWEEN 12 AND 25";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 12 ) { // abilities - talents
-    $sql = "SELECT sectext FROM chap3 Where id BETWEEN 26 AND 37";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 13 ) { // abilities -skills
-    $sql = "SELECT sectext FROM chap3 Where id = 26";
-    $result = $conn->query($sql);
-    $sql2 = "SELECT sectext FROM chap3 Where id BETWEEN 38 AND 48";
-    $result2 = $conn->query($sql2);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-    if ($result2->num_rows > 0) {
-        while($row = $result2->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-} else if ( $passnum == 14 ) { // abilities - knowledges
-    $sql = "SELECT sectext FROM chap3 Where id = 26";
-    $result = $conn->query($sql);
-    $sql2 = "SELECT sectext FROM chap3 Where id BETWEEN 49 AND 59";
-    $result2 = $conn->query($sql2);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo " " . $row["sectext"] . " ";
-        }
-    } else {
-        echo "<p>Error retriving data</p>";
-    } 
-    if ($result2->num_rows > 0) {
-        while($row = $result2->fetch_assoc()) {
             echo " " . $row["sectext"] . " ";
         }
     } else {
         echo "<p>Error retriving data</p>";
     }
-} else if ( $passnum == 15 ) { // backgrounds
-    $sql = "SELECT sectext FROM chap3 Where id BETWEEN 60 AND 70";
+} else if ( $passnum == 2 ) { // it's about time
+    $sql = "SELECT sectext FROM chap5 Where id = 2";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -266,8 +99,8 @@ if ( $passnum == 1 ) { // intro
     } else {
         echo "<p>Error retriving data</p>";
     } 
-} else if ( $passnum == 14 ) { // renown
-    $sql = "SELECT sectext FROM chap3 Where id = 71 AND 75";
+} else if ( $passnum == 3 ) { // actions
+    $sql = "SELECT sectext FROM chap5 Where id = 3";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -277,8 +110,8 @@ if ( $passnum == 1 ) { // intro
     } else {
         echo "<p>Error retriving data</p>";
     } 
-} else if ( $passnum == 15 ) { // rank
-    $sql = "SELECT sectext FROM chap3 Where id = 76";
+} else if ( $passnum == 4 ) { // rolling dice
+    $sql = "SELECT sectext FROM chap5 Where id = 4";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -288,8 +121,30 @@ if ( $passnum == 1 ) { // intro
     } else {
         echo "<p>Error retriving data</p>";
     } 
-} else if ( $passnum == 16 ) { // rage
-    $sql = "SELECT sectext FROM chap3 Where id BETWEEN 77 AND 79";
+} else if ( $passnum == 5 ) { // raiting
+    $sql = "SELECT sectext FROM chap5 Where id = 5";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    }
+} else if ( $passnum == 6 ) { // reflexives
+    $sql = "SELECT sectext FROM chap5 Where id = 6";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 7 ) { // hard
+    $sql = "SELECT sectext FROM chap5 Where id = 7";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -299,8 +154,52 @@ if ( $passnum == 1 ) { // intro
     } else {
         echo "<p>Error retriving data</p>";
     } 
-} else if ( $passnum == 17 ) { // gnosis
-    $sql = "SELECT sectext FROM chap3 Where id BETWEEN 80 AND 82";
+} else if ( $passnum == 8 ) { // failure
+    $sql = "SELECT sectext FROM chap5 Where id = 8";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 9 ) { // botches
+    $sql = "SELECT sectext FROM chap5 Where id = 9";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 10 ) { // auto successes
+    $sql = "SELECT sectext FROM chap5 Where id = 10";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 11 ) { // difficulties and successes
+    $sql = "SELECT sectext FROM chap5 Where id = 11";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 12 ) { // try again
+    $sql = "SELECT sectext FROM chap5 Where id = 12";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -310,8 +209,8 @@ if ( $passnum == 1 ) { // intro
     } else {
         echo "<p>Error retriving data</p>";
     } 
-} else if ( $passnum == 18 ) { // willpower
-    $sql = "SELECT sectext FROM chap3 Where id BETWEEN 83 AND 85";
+} else if ( $passnum == 13 ) { // multiple
+    $sql = "SELECT sectext FROM chap5 Where id = 13";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -319,10 +218,10 @@ if ( $passnum == 1 ) { // intro
             echo " " . $row["sectext"] . " ";
         }
     } else {
-        echo "<p>Error retriving data</p>";
+        echo "Error retriving data";
     } 
-} else if ( $passnum == 19 ) { // health
-    $sql = "SELECT sectext FROM chap3 Where id BETWEEN 86 AND 87";
+} else if ( $passnum == 14 ) { // complications
+    $sql = "SELECT sectext FROM chap5 Where id = 14";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -330,10 +229,76 @@ if ( $passnum == 1 ) { // intro
             echo " " . $row["sectext"] . " ";
         }
     } else {
-        echo "<p>Error retriving data</p>";
+        echo "Error retriving data";
+    }
+} else if ( $passnum == 15 ) { // extended actions
+    $sql = "SELECT sectext FROM chap5 Where id = 15";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
     } 
+} else if ( $passnum == 16 ) { // resisted actions
+    $sql = "SELECT sectext FROM chap5 Where id = 16";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 17 ) { // teamwork
+    $sql = "SELECT sectext FROM chap5 Where id = 17";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 18 ) { // golden rule
+    $sql = "SELECT sectext FROM chap5 Where id = 18";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 19 ) { // try it out
+    $sql = "SELECT sectext FROM chap5 Where id = 19";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    } 
+} else if ( $passnum == 20 ) { // examples and terms
+    $sql = "SELECT sectext FROM chap5 Where id = 20";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo " " . $row["sectext"] . " ";
+        }
+    } else {
+        echo "Error retriving data";
+    }
 } else { // whole chapter and/or confused code
-    $sql = "SELECT sectext FROM chap3 Where id BETWEEN 1 AND 87";
+    $sql = "SELECT sectext FROM chap5 Where id BETWEEN 1 AND 20";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

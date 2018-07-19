@@ -1,4 +1,7 @@
 <?php
+/** This php handles all the buttons from the first chapter - A World of 
+ * Darkness. Then queries the MySQL db to return the correct data.
+ */
 
 require '../resources/wodConfig.php';
 

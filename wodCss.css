@@ -233,6 +233,18 @@ img {
     height: auto;
     padding: -5px;
 }
+table {
+    text-align: center;
+    border: none;
+}
+th, td {
+    padding: 1%;
+    border: none;
+    text-align: center;
+    font-family: Helvetica;
+    font-weight: bold;
+    color: black;
+}
 /** These are for the random dice roller section */
 .runePanel {
     display: none;

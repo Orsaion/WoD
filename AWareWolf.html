@@ -62,9 +62,8 @@
             <!-- there was an error with the first one not rendering correctly
             so I just made it a fake header for the setion -->
             <button class='accordionTitle'>Chapters</button>
-            <!-- Eventually these will reflect the correct blurbs of text too
-            but for now these buttons are just here to make sure everything is
-            working correctly. -->
+            <!-- These fields will send calls out to sever side php and bring 
+            back the selected text. -->
             <button class='accordion'>A World of Darkness</button>
             <div class='panel'>
                 <button type='submit' class='button' name='intro'>Introduction
@@ -202,21 +201,57 @@
             <button class='accordion'>Gifts and Rites</button>
             <div class='panel'>
                 <button type='submit' class='button' name='gifts'>Gifts</button>
-                <button type='submit' class='button' name='lGifts'
+                <button type='submit' class='button' name='learnGifts'
                     >Learning Gifts</button>
                 <button type='submit' class='button' name='sys'>Systems</button>
-                <button type='submit' class='button' name='bGifts'
-                    >Breed Gifts</button>
-                <button type='submit' class='button' name='aGifts'
-                    >Auspice Gifts</button>  
-                <button type='submit' class='button' name='tGifts'
-                    >Tribal Gifts</button>
+                <button type='submit' class='button' name='homidGifts'
+                    >Homid Gifts</button>
+                <button type='submit' class='button' name='metisGifts'
+                    >Metis Gifts</button>
+                <button type='submit' class='button' name='lupusGifts'
+                    >Lupus Gifts</button>
+                <button type='submit' class='button' name='ragabashGifts'
+                    >Ragabash Gifts</button>
+                <button type='submit' class='button' name='theurgeGifts'
+                    >Theurge Gifts</button>
+                <button type='submit' class='button' name='philodoxGifts'
+                    >Philodox Gifts</button>
+                <button type='submit' class='button' name='gallardGifts'
+                    >Gallard Gifts</button>
+                <button type='submit' class='button' name='ahrounGifts'
+                    >Ahroun Gifts</button>
+                <button type='submit' class='button' name='furiesGifts'
+                    >Black Furies Gifts</button>
+                <button type='submit' class='button' name='boneGifts'
+                    >Bone Gnawers Gifts</button>
+                <button type='submit' class='button' name='childGifts'
+                    >Children of Gaia Gifts</button>
+                <button type='submit' class='button' name='fiannaGifts'
+                    >Fianna Gifts</button>
+                <button type='submit' class='button' name='getGifts'
+                    >Get of Fenris Gifts</button>
+                <button type='submit' class='button' name='glassGifts'
+                    >Glass Walkers Gifts</button>
+                <button type='submit' class='button' name='talonGifts'
+                    >Red Talons Gifts</button>
+                <button type='submit' class='button' name='lordsGifts'
+                    >Shadow Lords Gifts</button>
+                <button type='submit' class='button' name='stridersGifts'
+                    >Silent Striders Gifts</button>
+                <button type='submit' class='button' name='fangsGifts'
+                    >Silver Fangs Gifts</button>
+                <button type='submit' class='button' name='uktenaGifts'
+                    >Uktena Gifts</button>
+                <button type='submit' class='button' name='wendigoGifts'
+                    >Wendigo Gifts</button>
                 <button type='submit' class='button' name='types'
                     >Types of Rites</button>
-                <button type='submit' class='button' name='lRite'
-                    >Learning a Rite</button>
                 <button type='submit' class='button' name='eRite'
-                    >Enacting a Rite</button>
+                    >Enacting Rites</button>
+                <button type='submit' class='button' name='chart'
+                    >Rite Chart</button>
+                <button type='submit' class='button' name='lRite'
+                    >Learning Rites</button>
                 <button type='submit' class='button' name='aRoles'
                     >Auspice Roles</button>
                 <button type='submit' class='button' name='rAccord'
@@ -250,8 +285,6 @@
                     >Rolling Dice</button>
                 <button type='submit' class='button' name='raiting'
                     >Raitings</button>  
-                <button type='submit' class='button' name='introTwo'
-                    >Introduction</button>
                 <button type='submit' class='button' name='ref'
                     >Reflexives</button>
                 <button type='submit' class='button' name='hard'
@@ -260,6 +293,8 @@
                 <button type='submit' class='button' name='botch'>Botch</button>
                 <button type='submit' class='button' name='auto'
                     >Automatic Successes</button>
+                <button type='submit' class='button' name='difSuc'
+                    >Diffculties and Successes</button>
                 <button type='submit' class='button' name='tryAgain'
                     >Trying Again</button>
                 <button type='submit' class='button' name='multiple'
@@ -274,8 +309,10 @@
                     >Teamwork</button>
                 <button type='submit' class='button' name='golden'
                     >The Golden Rule</button>
-                <button type='submit' class='button' name='try'
+                <button type='submit' class='button' name='tryIt'
                     >Try It Out</button>
+                <button type='submit' class='button' name='examTerm'
+                    >Example Rolls and Game Terms</button>
                 <button type='submit' class='button' name='full'
                     >Full Chapter</button> 
             </div>
@@ -284,20 +321,21 @@
             <div class='panel'>
                 <button type='submit' class='button' name='exp'
                     >Experience Points</button>
-                <button type='submit' class='button' name='aExp'
-                    >Awarding Experience</button>
                 <button type='submit' class='button' name='sExp'
                     >Spending Experience</button>
-                <button type='submit' class='button' name='use'
-                    >Use of Roleplay</button>
+                <button type='submit' class='button' name='rpit'
+                    >Roleplay It</button>
                 <button type='submit' class='button' name='awardingRenown'
                     >Awarding Renown</button> 
                 <button type='submit' class='button' name='looseRenown'
                     >Loosing Renown</button>
+                <button type='submit' class='button' name='renownChart'
+                    >Example Renown Award/Loss</button>
+                <button type='submit' class='button' name='rank'>Rank</button>
                 <button type='submit' class='button' name='renunciation'
                     >Renunciation</button>
                 <button type='submit' class='button' name='pStates'
-                    >Physical States</button>
+                    >Injury</button>
                 <button type='submit' class='button' name='injury'
                     >Sources of Injury</button>
                 <button type='submit' class='button' name='scars'
@@ -330,12 +368,22 @@
                     >The Many Forms</button>
                 <button type='submit' class='button' name='combat'
                     >Combat</button>
+                <button type='submit' class='button' name='useRage'
+                    >Using Rage in Combat</button>
                 <button type='submit' class='button' name='hard'
                     >Complications</button>
                 <button type='submit' class='button' name='ranged'
                     >Ranged Combat</button>
+                <button type='submit' class='button' name='rangedWeps'
+                    >Ranged Weapons</button>
                 <button type='submit' class='button' name='close'
                     >Close Combat</button>
+                <button type='submit' class='button' name='closeComp'
+                    >Complications</button>
+                <button type='submit' class='button' name='sMoves'
+                    >Special Maneuvers</button>
+                <button type='submit' class='button' name='packTac'
+                    >Pack Tactics</button>
                 <button type='submit' class='button' name='full'
                     >Full Chapter</button>
             </div>
@@ -352,10 +400,18 @@
                     >The Creation Myth</button>
                 <button type='submit' class='button' name='enviroment'
                     >The Umbral Enviroment</button>  
+                <button type='submit' class='button' name='caern'
+                    >Caerns</button>  
                 <button type='submit' class='button' name='travel'
                     >Umbral Travel</button>
                 <button type='submit' class='button' name='nature'
                     >The Nature of Spirits</button>
+                <button type='submit' class='button' name='charms'
+                    >Spirit Charms</button>  
+                <button type='submit' class='button' name='fetish'
+                    >Fetishes and Talens</button>  
+                <button type='submit' class='button' name='disconn'
+                    >Disconnection</button>  
                 <button type='submit' class='button' name='full'
                     >Full Chapter</button>
             </div>
@@ -376,15 +432,19 @@
                     >Walking Dead</button>
                 <button type='submit' class='button' name='sads'
                     >Unforunates</button>
+                <button type='submit' class='button' name='spirits'
+                    >Spirits</button>
                 <button type='submit' class='button' name='weaver'
                     >Weaver</button>
-                <button type='submit' class='button' name='otherSads'
-                    >Other Unforunates</button>
-                <button type='submit' class='button' name='wyld'>Wyld</button>
-                <button type='submit' class='button' name='wyrm'>Wyrm</button>
+                <button type='submit' class='button' name='wyld'
+                    >Wyld</button>
+                <button type='submit' class='button' name='wyrm'
+                    >Wyrm</button>
                 <button type='submit' class='button' name='human'
                     >Human Agencies</button>
-                <button type='submit' class='button' name='other'
+                <button type='submit' class='button' name='dead'
+                    >Dead Man's Hand</button>
+                <button type='submit' class='button' name='others'
                     >Other Groups</button>
                 <button type='submit' class='button' name='full'
                     >Full Chapter</button> 
@@ -408,9 +468,9 @@
                     >Totems of Cunning</button>
                 <button type='submit' class='button' name='naturae'
                     >Naturae</button>
-                <button type='submit' class='button' name='mStargazers'
-                    >Stargazers</button>
-                <button type='submit' class='button' name='oldSpirits'
+                <button type='submit' class='button' name='hunt'
+                    >The Wild Hunt</button>
+                <button type='submit' class='button' name='old'
                     >Ancestor Spirits</button>
                 <button type='submit' class='button' name='eles'
                     >Elementals</button>
@@ -418,9 +478,70 @@
                     >Enigmatic Spirits</button>
                 <button type='submit' class='button' name='fetish'
                     >Sample Fetishes</button>
+                <button type='submit' class='button' name='talen'
+                    >Sample Talens</button>
                 <button type='submit' class='button' name='full'
                     >Full Chapter</button>
             </div>
+
+            <button class='accordion'>Quick Ref</button>
+            <div class='panel'>
+                <button type='submit' class='button' name='lang'
+                    >Garou Terms</button>
+                <button type='submit' class='button' name='create'
+                    >Character Creation</button>
+                <button type='submit' class='button' name='freebie' 
+                    >Freebie Points</button>
+                <button type='submit' class='button' name='raiting'
+                    >Rating</button>
+                <button type='submit' class='button' name='difSuc'
+                    >Difficulties and Successes</button>  
+                <button type='submit' class='button' name='exp'
+                    >Experience Chart</button>
+                <button type='submit' class='button' name='gauntlet'
+                    >Gauntlet/Stepping-Sideways</button>
+                <button type='submit' class='button' name='combat'
+                    >Combat Summary</button>
+                <button type='submit' class='button' name='rage'
+                    >Difficulty for Rage Rolls</button>
+                <button type='submit' class='button' name='health'
+                    >Health Levels</button>
+                <button type='submit' class='button' name='melee'
+                    >Melee Weapons</button>
+                <button type='submit' class='button' name='armor'
+                    >Armor</button>
+                <button type='submit' class='button' name='firefight'
+                    >Ranged Complications</button>
+                <button type='submit' class='button' name='move'
+                    >Movement Rates</button>                
+                <button type='submit' class='button' name='rangedWeps'
+                    >Ranged Weapons</button>
+                <button type='submit' class='button' name='dodge'
+                    >Dodging</button>
+                <button type='submit' class='button' name='del'
+                    >Effects of Delirium</button>
+                <button type='submit' class='button' name='feats'
+                    >Feats of Strength</button>  
+                <button type='submit' class='button' name='jump'
+                    >Jumping</button>
+                <button type='submit' class='button' name='falling'
+                    >Falling</button>
+                <button type='submit' class='button' name='fire'
+                    >Fire Damage</button>
+                <button type='submit' class='button' name='caern'
+                    >Caern Mechanics</button>
+                <button type='submit' class='button' name='all'
+                    >All Quick Refs</button>
+            </div>
+
+            <!-- 'spacer' button then storyteller area -->
+            <button class='accordionTitle'></button>
+            <button type='submit' class='accordionTitle' name='story'
+                >Storyteller Section</button>  
+            <!-- 'spacer' button then search button -->
+            <button class='accordionTitle'></button>
+            <button type='button' class='accordionTitle' name='search' 
+                >Seach</button>     
 
             <script>
                 /** This simply gathers all the different chapters and allows 
@@ -430,7 +551,7 @@
                 var acc = document.getElementsByClassName('accordion');
                 var i;
 
-                // populate and create action for clicking on accordion buttons
+                // populate and create action for accordion buttons
                 for (i = 0; i < acc.length; i++) {
                     acc[i].addEventListener('click', function() {
                     this.classList.toggle('active');
